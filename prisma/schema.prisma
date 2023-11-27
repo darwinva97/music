@@ -1,0 +1,193 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+// Necessary for Next auth
+model Account {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+
+  userId            String  @db.ObjectId
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? // @db.Text
+  access_token      String? // @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? // @db.Text
+  session_state     String?
+  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+  @@index([userId])
+}
+
+model Session {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+
+  sessionToken String   @unique
+  userId       String   @db.ObjectId
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}
+
+model User {
+  id       String    @id @default(auto()) @map("_id") @db.ObjectId
+  email    String    @unique
+  password String
+  accounts Account[]
+  sessions Session[]
+}
+
+model VerificationToken {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+model Artist {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+
+  name       String  @unique
+  photo      String?
+  coverPhoto String?
+  featured   Boolean @default(true)
+
+  songs  SongsOnArtist[]
+  albums AlbumsOnArists[]
+  bands  ArtistsOnBands[]
+}
+
+model Band {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+
+  name       String  @unique
+  photo      String?
+  coverPhoto String?
+  featured   Boolean @default(true)
+
+  albums  Album[]
+  artists ArtistsOnBands[]
+  songs   Song[]
+}
+
+model Song {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+
+  name       String  @unique
+  photo      String?
+  coverPhoto String?
+  featured   Boolean @default(true)
+
+  audioSrc String?
+  videoSrc String?
+
+  artists   SongsOnArtist[]
+  band      Band?              @relation(fields: [bandId], references: [id])
+  bandId    String?            @db.ObjectId
+  playlists SongsOnPlaylists[]
+}
+
+model Album {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+
+  name       String  @unique
+  photo      String?
+  coverPhoto String?
+  featured   Boolean @default(true)
+
+  artists AlbumsOnArists[]
+  band    Band?            @relation(fields: [bandId], references: [id])
+  bandId  String?          @db.ObjectId
+}
+
+model Playlist {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+
+  name        String  @unique
+  description String  @default("")
+  photo       String?
+  coverPhoto  String?
+  featured    Boolean @default(true)
+
+  songs SongsOnPlaylists[]
+}
+
+model ArtistsOnBands {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+
+  artist   Artist @relation(fields: [artistId], references: [id])
+  artistId String @db.ObjectId
+  band     Band   @relation(fields: [bandId], references: [id])
+  bandId   String @db.ObjectId
+
+  current Boolean @default(true)
+
+  @@unique([artistId, bandId])
+}
+
+model SongsOnArtist {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+
+  artist   Artist @relation(fields: [artistId], references: [id])
+  artistId String @db.ObjectId
+  song     Song   @relation(fields: [songId], references: [id])
+  songId   String @db.ObjectId
+
+  @@unique([artistId, songId])
+}
+
+model AlbumsOnArists {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+
+  artist   Artist @relation(fields: [artistId], references: [id])
+  artistId String @db.ObjectId
+  album    Album  @relation(fields: [albumId], references: [id])
+  albumId  String @db.ObjectId
+
+  @@unique([artistId, albumId])
+}
+
+model SongsOnPlaylists {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+
+  playlist   Playlist @relation(fields: [playlistId], references: [id])
+  playlistId String   @db.ObjectId
+  song       Song     @relation(fields: [songId], references: [id])
+  songId     String   @db.ObjectId
+
+  @@unique([playlistId, songId])
+}
+
+model Genre {
+  id          String  @id @default(auto()) @map("_id") @db.ObjectId
+  name        String  @unique
+  photo       String?
+  coverPhoto  String?
+  description String?
+  color       String?
+}
+
+model Tag {
+  id          String  @id @default(auto()) @map("_id") @db.ObjectId
+  name        String  @unique
+  photo       String?
+  coverPhoto  String?
+  description String?
+  color       String?
+}
