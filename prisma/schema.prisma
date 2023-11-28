@@ -97,6 +97,10 @@ model Song {
   audioSrc String?
   videoSrc String?
 
+  audioHot Boolean @default(true)
+  videoHot Boolean @default(true)
+  trending Boolean @default(true)
+
   artists   SongsOnArtist[]
   band      Band?              @relation(fields: [bandId], references: [id])
   bandId    String?            @db.ObjectId
@@ -181,6 +185,8 @@ model Genre {
   coverPhoto  String?
   description String?
   color       String?
+
+  featured Boolean @default(true)
 }
 
 model Tag {
@@ -190,4 +196,6 @@ model Tag {
   coverPhoto  String?
   description String?
   color       String?
+
+  featured Boolean @default(true)
 }

@@ -5,7 +5,7 @@ import Image from "next/image";
 
 export const Hero = () => {
   return (
-    <section className="m-4 rounded-tl-xl rounded-tr-xl shadow-xl">
+    <section className="m-4 rounded-tl-xl rounded-tr-xl rounded-bl-3xl shadow-xl overflow-hidden">
       <header className="p-4 text-2xl">New Releases</header>
       <div
         className={cn(

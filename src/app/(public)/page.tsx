@@ -1,5 +1,7 @@
 import { db } from "@/db";
 import { Hero } from "./hero";
+import { Albums } from "./albums";
+import { Artists } from "./artists";
 
 export default async function ProfilePage() {
   await db.song.findMany({
@@ -13,6 +15,8 @@ export default async function ProfilePage() {
   return (
     <div>
       <Hero />
+      <Albums />
+      <Artists />
     </div>
   )
 }
