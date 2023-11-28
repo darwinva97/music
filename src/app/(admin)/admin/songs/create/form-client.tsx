@@ -17,6 +17,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { PickImage } from "@/components/PickImage";
 import { useState } from "react";
+import { PickAudio } from "@/components/PickAudio";
 
 const formSchema = z.object({
   name: z.string().min(2, {
@@ -75,6 +76,7 @@ export function ProfileForm() {
           )}
         />
         <PickImage image={image} setImage={setImage} />
+        <PickAudio audio={audio} setAudio={setAudio} />
         <Button type="submit">Submit</Button>
       </form>
     </Form>
