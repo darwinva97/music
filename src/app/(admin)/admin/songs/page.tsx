@@ -7,11 +7,13 @@ import { columns } from "./columns";
 const Page = async () => {
   const songs = await db.song.findMany();
   return (
-    <div>
-      <h1>Songs</h1>
-      <Link href="/admin/songs/create">
-        <Button>Create</Button>
-      </Link>
+    <div className="p-2 md:p-4">
+      <header className="flex gap-3 items-center justify-center mb-6">
+        <h1 className="text-2xl">Songs</h1>
+        <Link href="/admin/songs/create">
+          <Button>Create</Button>
+        </Link>
+      </header>
       <DataTable columns={columns} data={songs} />
     </div>
   );

@@ -14,7 +14,7 @@ import Link from "next/link";
 
 export const Header = () => {
   return (
-    <header className="flex items-center justify-between p-4 sticky top-0">
+    <header className="flex items-center justify-between p-4 sticky top-0 left-0 w-full bg-white shadow-sm">
       <Image src="/vercel.svg" alt="Logo" width={120} height={27} />
       <Input className="w-auto" placeholder="Search" />
 

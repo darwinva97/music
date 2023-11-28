@@ -96,7 +96,7 @@ export const Footer = () => {
         "bg-[rgba(44,53,103,0.7)] bg-blend-normal"
       )}
     >
-      <Track className="col-start-1 col-end-3 md:col-start-2 md:col-end-3 md:row-start-1 md:row-end-2" />
+      <Track className="col-start-1 col-end-4 md:col-start-2 md:col-end-3 md:row-start-1 md:row-end-2" />
       <TitleSong className="col-start-1 col-end-2 md:row-start-1 md:row-end-2" />
       <Buttons className="col-start-3 col-end-4 md:row-start-1 md:row-end-2" />
     </footer>
