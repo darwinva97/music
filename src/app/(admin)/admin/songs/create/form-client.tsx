@@ -15,6 +15,8 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { PickImage } from "@/components/PickImage";
+import { useState } from "react";
 
 const formSchema = z.object({
   name: z.string().min(2, {
@@ -29,6 +31,9 @@ export function ProfileForm() {
       name: "",
     },
   });
+  const [image, setImage] = useState<string>("");
+  const [audio, setAudio] = useState<string>("");
+  const [video, setVideo] = useState<string>("");
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     // Do something with the form values.
@@ -69,6 +74,7 @@ export function ProfileForm() {
             </FormItem>
           )}
         />
+        <PickImage image={image} setImage={setImage} />
         <Button type="submit">Submit</Button>
       </form>
     </Form>
