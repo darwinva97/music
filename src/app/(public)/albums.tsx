@@ -81,7 +81,7 @@ export const Albums = () => {
           ref={(el) => setCarousel(el)}
           arrows={false}
           responsive={responsive}
-          itemClass="mr-3 inline-flex"
+          
         >
           <Card artist="Patricia Kaas" album="Pop Smoke" />
           <Card artist="Lewis Capaldi" album="Before You Go" />

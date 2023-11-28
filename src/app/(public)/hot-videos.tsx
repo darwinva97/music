@@ -45,7 +45,7 @@ export const HotVideos = () => {
           ref={(el) => setCarousel(el)}
           arrows={false}
           responsive={responsive}
-          itemClass="mr-3 inline-flex"
+          
         >
           <Card
             src="https://appsbuildin2.click/musica/go/images/dashboard/song-video/video-1.mp4"

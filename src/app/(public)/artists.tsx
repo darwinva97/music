@@ -78,7 +78,7 @@ export const Artists = () => {
           ref={(el) => setCarousel(el)}
           arrows={false}
           responsive={responsive}
-          itemClass="mr-3 inline-flex"
+          
         >
           <Card artist="Patricia Kaas" />
           <Card artist="Lewis Capaldi" />
