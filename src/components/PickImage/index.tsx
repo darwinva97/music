@@ -65,6 +65,7 @@ export const PickImage = ({
             <button
               className="btn btn-circle btn-sm"
               onClick={(e) => {
+                e.preventDefault();
                 e.stopPropagation();
                 void loadImages();
               }}
