@@ -2,6 +2,9 @@ import { db } from "@/db";
 import { Hero } from "./hero";
 import { Albums } from "./albums";
 import { Artists } from "./artists";
+import { HotSongs } from "./hot-songs";
+import { HotVideos } from "./hot-videos";
+import "react-multi-carousel/lib/styles.css";
 
 export default async function ProfilePage() {
   await db.song.findMany({
@@ -17,6 +20,8 @@ export default async function ProfilePage() {
       <Hero />
       <Albums />
       <Artists />
+      <HotSongs />
+      <HotVideos />
     </div>
   )
 }
