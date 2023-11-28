@@ -100,6 +100,8 @@ model Song {
   audioHot Boolean @default(true)
   videoHot Boolean @default(true)
   trending Boolean @default(true)
+  plays    Int     @default(0)
+  stars    Int     @default(1)
 
   artists   SongsOnArtist[]
   band      Band?              @relation(fields: [bandId], references: [id])
