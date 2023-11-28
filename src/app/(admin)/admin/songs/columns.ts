@@ -25,4 +25,16 @@ export const columns: ColumnDef<Song>[] = [
     accessorKey: "coverPhoto",
     header: "Cover Photo",
   },
+  {
+    accessorKey: "audioSrc",
+    header: "Audio",
+  },
+  {
+    accessorKey: "videoSrc",
+    header: "Video",
+  },
+  {
+    accessorKey: "featured",
+    header: "Featured",
+  },
 ];

@@ -18,36 +18,44 @@ import { Input } from "@/components/ui/input";
 import { PickImage } from "@/components/PickImage";
 import { useState } from "react";
 import { PickAudio } from "@/components/PickAudio";
+import { createSongSchema } from "@/schemas";
+import { PickVideo } from "@/components/PickVideo";
 
-const formSchema = z.object({
-  name: z.string().min(2, {
-    message: "name must be at least 2 characters.",
-  }),
-});
+const formSchema = createSongSchema.pick({ name: true, featured: true });
 
 export function ProfileForm() {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: "",
+      featured: false,
     },
   });
-  const [image, setImage] = useState<string>("");
-  const [audio, setAudio] = useState<string>("");
-  const [video, setVideo] = useState<string>("");
+  const [photo, setPhoto] = useState<string>("");
+  const [coverPhoto, setCoverPhoto] = useState<string>("");
+  const [audioSrc, setAudio] = useState<string>("");
+  const [videoSrc, setVideo] = useState<string>("");
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    console.log(values);
     const result = await fetch("/api/songs", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(values),
+      body: JSON.stringify({
+        ...values,
+        featured: true,
+        photo,
+        coverPhoto,
+        audioSrc,
+        videoSrc,
+      }),
     }).then((res) => res.json());
     console.log(result);
+    setAudio("");
+    setVideo("");
+    setPhoto("");
+    setCoverPhoto("");
     form.reset();
   }
   return (
@@ -66,7 +74,7 @@ export function ProfileForm() {
             <FormItem>
               <FormLabel>Name</FormLabel>
               <FormControl>
-                <Input placeholder="Nombre de la canción" {...field} />
+                <Input placeholder="Nombre de la canción" required {...field} />
               </FormControl>
               <FormDescription>
                 This is your public display name.
@@ -75,8 +83,12 @@ export function ProfileForm() {
             </FormItem>
           )}
         />
-        <PickImage image={image} setImage={setImage} />
-        <PickAudio audio={audio} setAudio={setAudio} />
+
+        <PickImage image={photo} setImage={setPhoto} />
+        <PickImage image={coverPhoto} setImage={setCoverPhoto} />
+        <PickAudio audio={audioSrc} setAudio={setAudio} />
+        <PickVideo video={videoSrc} setVideo={setVideo} />
+
         <Button type="submit">Submit</Button>
       </form>
     </Form>

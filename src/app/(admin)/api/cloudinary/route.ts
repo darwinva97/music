@@ -11,7 +11,7 @@ cloudinary.config({
 
 export async function GET() {
   const results = (await cloudinary.search
-    .expression("music-app*")
+    .expression("resource_type:image AND music-app*")
     .sort_by("created_at", "desc")
     .execute()) as { resources: { secure_url: string }[] };
 

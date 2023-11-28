@@ -15,6 +15,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import Image from "next/image";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -59,11 +60,61 @@ export function DataTable<TData, TValue>({
                 key={row.id}
                 data-state={row.getIsSelected() && "selected"}
               >
-                {row.getVisibleCells().map((cell) => (
-                  <TableCell key={cell.id}>
-                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                  </TableCell>
-                ))}
+                {row.getVisibleCells().map((cell) => {
+                  const value = cell.getValue<string | null>();
+                  if (
+                    !value ||
+                    typeof value === "boolean" ||
+                    !value.startsWith("http")
+                  )
+                    return (
+                      <TableCell key={cell.id}>
+                        {flexRender(
+                          cell.column.columnDef.cell,
+                          cell.getContext()
+                        )}
+                      </TableCell>
+                    );
+                  const isAudio = value.includes(".mp3");
+                  const isVideo = value.includes(".mp4");
+
+                  if (isAudio)
+                    return (
+                      <TableCell key={cell.id}>
+                        <audio
+                          controls
+                          src={value}
+                          className="w-full"
+                          style={{
+                            display: "block",
+                            margin: "0 auto",
+                            width: "100%",
+                          }}
+                        >
+                          {isAudio
+                            ? "Your browser does not support audio."
+                            : ""}
+                        </audio>
+                      </TableCell>
+                    );
+
+                  if (isVideo)
+                    return (
+                      <TableCell key={cell.id}>
+                        <video controls src={value} height={150} width={150}>
+                          {isVideo
+                            ? "Your browser does not support audio."
+                            : ""}
+                        </video>
+                      </TableCell>
+                    );
+
+                  return (
+                    <TableCell key={cell.id}>
+                      <Image src={value} alt={value} width={100} height={100} />
+                    </TableCell>
+                  );
+                })}
               </TableRow>
             ))
           ) : (

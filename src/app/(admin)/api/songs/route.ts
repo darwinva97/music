@@ -1,10 +1,5 @@
 import { db } from "@/db";
-import { revalidatePath, revalidateTag } from "next/cache";
-import { z } from "zod";
-
-const createSongSchema = z.object({
-  name: z.string(),
-});
+import { createSongSchema } from "@/schemas";
 
 export const POST = async function (req: Request) {
   const body = await req.json();
@@ -15,11 +10,8 @@ export const POST = async function (req: Request) {
       error: parseResult.error,
     });
   }
-  const { name } = parseResult.data;
   const newSong = await db.song.create({
-    data: {
-      name,
-    },
+    data: parseResult.data,
   });
   return Response.json({
     data: newSong,
