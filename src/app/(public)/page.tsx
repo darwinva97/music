@@ -1,4 +1,5 @@
 import { db } from "@/db";
+import { Hero } from "./hero";
 
 export default async function ProfilePage() {
   await db.song.findMany({
@@ -9,5 +10,9 @@ export default async function ProfilePage() {
     },
   });
   // return <pre>{JSON.stringify(session, null, 2)}</pre>;
-  return null;
+  return (
+    <div>
+      <Hero />
+    </div>
+  )
 }

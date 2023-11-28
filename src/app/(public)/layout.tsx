@@ -5,7 +5,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
   return (
     <div>
       <Header />
-      <main>{children}</main>
+      <main className="bg-[#FBFDFD]">{children}</main>
     </div>
   );
 };
