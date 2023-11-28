@@ -18,7 +18,7 @@ export const Header = () => {
       <Image src="/vercel.svg" alt="Logo" width={120} height={27} />
       <Input className="w-auto" placeholder="Search" />
 
-      <ul className="hidden md:flex p-2 gap-4">
+      <ul className="hidden md:flex p-2 gap-6">
         <li className="ml-0">
           <Link href="/">Home</Link>
         </li>
