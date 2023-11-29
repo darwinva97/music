@@ -30,6 +30,12 @@ export const Header = () => {
         <li className="ml-0">
           <Link href="/albums">Albums</Link>
         </li>
+        <li className="ml-0">
+          <Link href="/trending">Trending</Link>
+        </li>
+        <li className="ml-0">
+          <Link href="/genre">Géneros</Link>
+        </li>
       </ul>
 
       <Sheet>
