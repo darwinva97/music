@@ -1,18 +1,9 @@
 "use client";
 
-import { Song } from "@prisma/client";
+import { Artist } from "@prisma/client";
 import { ColumnDef } from "@tanstack/react-table";
 
-// This type is used to define the shape of our data.
-// You can use a Zod schema here if you want.
-export type Payment = {
-  id: string;
-  amount: number;
-  status: "pending" | "processing" | "success" | "failed";
-  email: string;
-};
-
-export const columns: ColumnDef<Song>[] = [
+export const columns: ColumnDef<Artist>[] = [
   {
     accessorKey: "name",
     header: "Name",
