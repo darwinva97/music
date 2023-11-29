@@ -5,6 +5,7 @@ import { Artists } from "./artists";
 import { HotSongs } from "./hot-songs";
 import { HotVideos } from "./hot-videos";
 import "react-multi-carousel/lib/styles.css";
+import { TrendingSongs } from "./trending";
 
 export default async function ProfilePage() {
   await db.song.findMany({
@@ -20,6 +21,7 @@ export default async function ProfilePage() {
       <Hero />
       <Albums />
       <Artists />
+      <TrendingSongs />
       <HotSongs />
       <HotVideos />
     </div>
