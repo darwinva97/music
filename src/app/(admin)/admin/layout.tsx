@@ -17,7 +17,7 @@ import { type ReactNode } from "react";
 const Layout = ({ children }: { children: ReactNode }) => {
   return (
     <div>
-      <header className="flex justify-between p-2 md:p-4 sticky top-0 left-0 w-full bg-white shadow-sm">
+      <header className="flex justify-between p-2 md:p-4 sticky top-0 left-0 w-full bg-white shadow-sm z-10">
         <Link href="/">
           <Image src="/vercel.svg" alt="Logo" width={120} height={27} />
         </Link>

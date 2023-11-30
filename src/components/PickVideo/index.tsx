@@ -5,9 +5,11 @@ import { type ChangeEvent, useState } from "react";
 export const PickVideo = ({
   video,
   setVideo,
+  name,
 }: {
   video: string;
   setVideo: (video: string) => void;
+  name?: string;
 }) => {
   const [loading, setLoading] = useState(false);
 
@@ -34,6 +36,7 @@ export const PickVideo = ({
           onChange={(e) => void onChangeFile(e)}
         />
       </label>
+      {name && <input className="hidden" value={video} readOnly name={name} />}
     </div>
   );
 };

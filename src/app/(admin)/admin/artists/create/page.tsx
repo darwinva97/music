@@ -1,10 +1,10 @@
-import { ProfileForm } from "./form-client";
+import { Form } from "./form";
 
 const CreateSong = () => {
   return (
     <div>
       <h1>CreateSong</h1>
-      <ProfileForm />
+      <Form />
     </div>
   );
 };

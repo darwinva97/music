@@ -9,12 +9,14 @@ type TDialog = HTMLDialogElement & {
   close: () => void;
 };
 
-export const PickImage = ({
+const PickImageComponent = ({
   image,
   setImage,
+  name,
 }: {
   image: string;
   setImage: (image: string) => void;
+  name?: string;
 }) => {
   const dialogRef = useRef<TDialog | null>(null);
   const [loading, setLoading] = useState(false);
@@ -109,9 +111,41 @@ export const PickImage = ({
             >
               Close
             </div>
+            {name && (
+              <input className="hidden" value={image} readOnly name={name} />
+            )}
           </div>
         </div>
       </dialog>
     </>
+  );
+};
+
+type TName = {
+  name?: string;
+};
+type TPickImageProps =
+  | ({
+      image: string;
+      setImage: (image: string) => void;
+    } & TName)
+  | TName;
+export const PickImage = ({ name, ...props }: TPickImageProps) => {
+  const [imageLocal, setImageLocal] = useState("");
+  if ("setImage" in props) {
+    return (
+      <PickImageComponent
+        setImage={props.setImage}
+        image={props.image}
+        name={name}
+      />
+    );
+  }
+  return (
+    <PickImageComponent
+      image={imageLocal}
+      setImage={setImageLocal}
+      name={name}
+    />
   );
 };

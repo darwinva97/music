@@ -5,9 +5,11 @@ import { type ChangeEvent, useState } from "react";
 export const PickAudio = ({
   audio,
   setAudio,
+  name,
 }: {
   audio: string;
   setAudio: (audio: string) => void;
+  name?: string;
 }) => {
   const [loading, setLoading] = useState(false);
 
@@ -34,6 +36,8 @@ export const PickAudio = ({
           onChange={(e) => void onChangeFile(e)}
         />
       </label>
+
+      {name && <input className="hidden" value={audio} readOnly name={name} />}
     </div>
   );
 };

@@ -18,3 +18,11 @@ export const POST = async function (req: Request) {
     error: null,
   });
 };
+
+export const GET = async function (_req: Request) {
+  const songs = await db.song.findMany();
+  return Response.json({
+    data: songs,
+    error: null,
+  });
+};

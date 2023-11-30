@@ -5,6 +5,7 @@ import { z } from "zod";
 
 const createArtistSchema = z.object({
   name: z.string(),
+  songs: z.array(z.string()),
 });
 
 type TState = {
@@ -18,6 +19,7 @@ export async function createArtist(
   try {
     const payload = {
       name: formData.get("name"),
+      songs: formData.getAll("songs"),
     };
     const resultParse = createArtistSchema.safeParse(payload);
     if (!resultParse.success) {
@@ -27,7 +29,12 @@ export async function createArtist(
     }
     const data = resultParse.data;
     const newArtist = await db.artist.create({
-      data,
+      data: {
+        name: data.name,
+        songs: {
+          connect: data.songs.map((song) => ({ id: song })),
+        },
+      },
     });
     revalidatePath("/admin/artists/create");
     revalidatePath("/admin/artists");
