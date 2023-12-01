@@ -124,14 +124,17 @@ const PickImageComponent = ({
 type TName = {
   name?: string;
 };
-type TPickImageProps =
-  | ({
+type TPickImageProps = (
+  | {
       image: string;
       setImage: (image: string) => void;
-    } & TName)
-  | TName;
+    }
+  | { image?: string }
+) &
+  TName;
+
 export const PickImage = ({ name, ...props }: TPickImageProps) => {
-  const [imageLocal, setImageLocal] = useState("");
+  const [imageLocal, setImageLocal] = useState(props.image || "");
   if ("setImage" in props) {
     return (
       <PickImageComponent

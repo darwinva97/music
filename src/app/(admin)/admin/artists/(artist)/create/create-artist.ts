@@ -5,6 +5,9 @@ import { z } from "zod";
 
 const createArtistSchema = z.object({
   name: z.string(),
+  photo: z.string(),
+  coverPhoto: z.string(),
+  featured: z.boolean().optional(),
   songs: z.array(z.string()),
 });
 
@@ -19,7 +22,10 @@ export async function createArtist(
   try {
     const payload = {
       name: formData.get("name"),
-      songs: formData.getAll("songs"),
+      photo: formData.get("photo"),
+      coverPhoto: formData.get("coverPhoto"),
+      featured: !!formData.get("featured"),
+      songs: formData.getAll("songs").filter(Boolean),
     };
     const resultParse = createArtistSchema.safeParse(payload);
     if (!resultParse.success) {
@@ -31,6 +37,8 @@ export async function createArtist(
     const newArtist = await db.artist.create({
       data: {
         name: data.name,
+        photo: data.photo,
+        coverPhoto: data.coverPhoto,
         songs: {
           connect: data.songs.map((song) => ({ id: song })),
         },
