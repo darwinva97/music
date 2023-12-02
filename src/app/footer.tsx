@@ -1,39 +1,32 @@
-import { Slider } from "@/components/ui/slider";
+"use client";
 import { cn } from "@/lib/utils";
-import { Play, SkipBack, SkipForward, Volume1, Volume2 } from "lucide-react";
-import Image from "next/image";
 import { HTMLAttributes } from "react";
 import { Player } from "./player";
 import { Track } from "./track";
+import { Volume } from "./volume";
+import { useStore } from "@/store";
+import { ContainerImage } from "@/components/ContainerImage";
 
-const TitleSong = ({ className, ...props }: HTMLAttributes<HTMLDivElement>) => (
-  <div className={cn("flex gap-4", className)} {...props}>
-    <Image
-      src={"/next.svg"}
-      width={80}
-      height={80}
-      alt="Song"
-      className="mr-1"
-    />
-    <div className="flex flex-col items-start text-white">
-      <h3>Song</h3>
-      <h4>Artist</h4>
+const TitleSong = ({ className, ...props }: HTMLAttributes<HTMLDivElement>) => {
+  const { song } = useStore();
+  return (
+    <div className={cn("flex gap-4", className)} {...props}>
+      <ContainerImage
+        image={song?.photo || "/next.svg"}
+        width={80}
+        height={80}
+        className="mr-1"
+      />
+      <div className="flex flex-col items-start text-white">
+        <h3>{song?.name}</h3>
+        <h4>
+          {song?.band?.name ||
+            song?.artists.map((artist) => artist.artist.name).join(", ")}
+        </h4>
+      </div>
     </div>
-  </div>
-);
-
-const Volume = () => (
-  <div className="hidden md:flex justify-end flex-1 gap-2 ">
-    <Volume1 color="white" size={20} strokeWidth={1.75} />
-    <Slider
-      className="min-w-[60px] max-w-[200px]"
-      rangeClassName="bg-red-500"
-      trackClassName="bg-red-500"
-      thumbClassName="cursor-pointer"
-    />
-    <Volume2 color="white" size={20} strokeWidth={1.75} />
-  </div>
-);
+  );
+};
 
 const Buttons = ({ className, ...props }: HTMLAttributes<HTMLDivElement>) => (
   <div

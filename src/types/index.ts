@@ -15,3 +15,10 @@ export type TSongFull = Song & {
 };
 
 export * from "./form";
+
+export type TSong = Omit<TSongFull, "artists"> & {
+  band: Band | null;
+  artists: (SongsOnArtist & {
+    artist: Artist;
+  })[];
+};

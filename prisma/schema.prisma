@@ -63,6 +63,7 @@ model VerificationToken {
 model Artist {
   id String @id @default(auto()) @map("_id") @db.ObjectId
 
+  slug       String  @unique
   name       String  @unique
   photo      String?
   coverPhoto String?
@@ -76,6 +77,7 @@ model Artist {
 model Band {
   id String @id @default(auto()) @map("_id") @db.ObjectId
 
+  slug       String  @unique
   name       String  @unique
   photo      String?
   coverPhoto String?
@@ -116,6 +118,7 @@ model Song {
 model Album {
   id String @id @default(auto()) @map("_id") @db.ObjectId
 
+  slug       String  @unique
   name       String  @unique
   photo      String?
   coverPhoto String?
@@ -129,6 +132,7 @@ model Album {
 model Playlist {
   id String @id @default(auto()) @map("_id") @db.ObjectId
 
+  slug        String  @unique
   name        String  @unique
   description String  @default("")
   photo       String?
@@ -141,6 +145,7 @@ model Playlist {
 model Genre {
   id          String  @id @default(auto()) @map("_id") @db.ObjectId
   name        String  @unique
+  slug        String  @unique
   photo       String?
   coverPhoto  String?
   description String?
@@ -154,6 +159,7 @@ model Genre {
 model Tag {
   id          String  @id @default(auto()) @map("_id") @db.ObjectId
   name        String  @unique
+  slug        String  @unique
   photo       String?
   coverPhoto  String?
   description String?

@@ -1,35 +1,10 @@
-import { ContainerImage } from "@/components/ContainerImage";
-import { Song } from "@prisma/client";
+import { TSong } from "@/types";
 import { ChevronRight } from "lucide-react";
-import Image from "next/image";
 import Link from "next/link";
 import React from "react";
+import { CardTrending } from "./card-trending";
 
-type TCardProps = {
-  photo: string;
-  name: string;
-  artist: string;
-};
-const Card = ({ photo, name, artist }: TCardProps) => {
-  return (
-    <div className="inline-flex flex-col flex-start h-full">
-      <ContainerImage image={photo} width={300} height={260} />
-      <div className="inline-flex flex-col gap-2 p-4 text-center max-w-[300px]">
-        <strong>{name}</strong>
-        <span>{artist}</span>
-      </div>
-    </div>
-  );
-};
-
-export const TrendingSongs = ({
-  songs,
-}: {
-  songs: (Song & {
-    band: { name: string } | null;
-    artists: { artist: { name: string } }[];
-  })[];
-}) => {
+export const TrendingSongs = ({ songs }: { songs: TSong[] }) => {
   return (
     <section className="m-4 rounded-xl shadow-xl overflow-hidden">
       <header className="p-4 text-2xl flex justify-between">
@@ -44,18 +19,7 @@ export const TrendingSongs = ({
         {songs
           .filter((song) => song.trending)
           .map((song) => (
-            <Card
-              key={song.id}
-              photo={
-                song.photo ||
-                "https://appsbuildin2.click/musica/go/images/dashboard/tranding-song/01.png"
-              }
-              name={song.name}
-              artist={
-                song.band?.name ||
-                song.artists.map((artist) => artist.artist.name).join(", ")
-              }
-            />
+            <CardTrending key={song.id} {...song} />
           ))}
       </div>
     </section>
