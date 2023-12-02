@@ -1,10 +1,12 @@
 "use client";
-import { useRef } from "react";
+import { useId, useRef } from "react";
 import Select from "react-select";
 import { BtnSubmit } from "@/components/BtnSubmit";
 import { Input } from "@/components/ui/input";
 import { PickImage } from "@/components/PickImage";
 import type { TSongFull, TSongFormProps, TSong } from "@/types";
+import { PickAudio } from "@/components/PickAudio";
+import { PickVideo } from "@/components/PickVideo";
 
 export const SongForm = ({
   artists,
@@ -14,6 +16,8 @@ export const SongForm = ({
   btnLabel,
   bands,
 }: TSongFormProps<TSong>) => {
+  const artistsSelect = useId();
+  const bandsSelect = useId();
   const formRef = useRef<HTMLFormElement>(null);
   const artistsOptions = artists.map((artist) => ({
     value: artist.id,
@@ -33,6 +37,8 @@ export const SongForm = ({
     >
       <Input name="name" required defaultValue={defaultValues?.name || ""} />
       <Select
+        id={artistsSelect}
+        instanceId={artistsSelect}
         isMulti
         name="artists"
         options={artistsOptions}
@@ -48,6 +54,8 @@ export const SongForm = ({
         }
       />
       <Select
+        id={bandsSelect}
+        instanceId={bandsSelect}
         name="band"
         options={bandsOptions}
         isClearable
@@ -62,8 +70,8 @@ export const SongForm = ({
       />
       <PickImage name="photo" image={defaultValues?.photo || ""} />
       <PickImage name="coverPhoto" image={defaultValues?.photo || ""} />
-      {/* <PickAudio name="audioSrc" />
-      <PickVideo name="videoSrc" /> */}
+      <PickAudio name="audioSrc" audio={defaultValues?.audioSrc || ""} />
+      {/* <PickVideo name="videoSrc" /> */}
       <BtnSubmit>{btnLabel}</BtnSubmit>
       <span aria-live="polite" role="status">
         {state?.message}

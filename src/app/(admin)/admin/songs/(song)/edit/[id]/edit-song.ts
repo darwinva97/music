@@ -13,6 +13,7 @@ const editSongSchema = z.object({
   featured: z.boolean().optional(),
   artists: z.array(z.string()),
   band: z.string().optional(),
+  audioSrc: z.string().optional(),
 });
 
 export const editSong = async (
@@ -28,6 +29,7 @@ export const editSong = async (
       featured: !!formData.get("featured"),
       band: formData.get("band") || "",
       artists: formData.getAll("artists").filter(Boolean),
+      audioSrc: formData.get("audioSrc") || "",
     };
     const resultParse = editSongSchema.safeParse(dataToParse);
 
@@ -40,11 +42,22 @@ export const editSong = async (
 
     const data = resultParse.data;
 
-    await db.songsOnArtist.deleteMany({
-      where: {
-        songId: data.id,
-      },
-    });
+    // await db.songsOnArtist.deleteMany({
+    //   where: {
+    //     songId: data.id,
+    //   },
+    // });
+
+    const existingArtists = await Promise.all(
+      data.artists.map(async (artist) => {
+        const existingArtist = await db.artist.findUnique({
+          where: { id: artist },
+        });
+        return existingArtist;
+      })
+    );
+
+    const validArtists = existingArtists.filter((artist) => artist !== null);
 
     const updatedArtist = data.band
       ? await db.song.update({
@@ -56,10 +69,19 @@ export const editSong = async (
             photo: data.photo,
             coverPhoto: data.coverPhoto,
             featured: data.featured,
+            audioSrc: data.audioSrc,
             artists: {
-              create: data.artists.map((artist) => ({
-                artist: {
-                  connect: { id: artist },
+              connectOrCreate: validArtists.map((artist) => ({
+                where: {
+                  artistId_songId: {
+                    songId: data.id,
+                    artistId: artist!.id,
+                  },
+                },
+                create: {
+                  artist: {
+                    connect: { id: artist!.id },
+                  },
                 },
               })),
             },
@@ -77,18 +99,31 @@ export const editSong = async (
             photo: data.photo,
             coverPhoto: data.coverPhoto,
             featured: data.featured,
+            audioSrc: data.audioSrc,
             artists: {
-              create: data.artists.map((artist) => ({
-                artist: {
-                  connect: { id: artist },
+              connectOrCreate: validArtists.map((artist) => ({
+                where: {
+                  artistId_songId: {
+                    songId: data.id,
+                    artistId: artist!.id,
+                  },
+                },
+                create: {
+                  artist: {
+                    connect: { id: artist!.id },
+                  },
                 },
               })),
+            },
+            band: {
+              disconnect: true,
             },
           },
         });
 
-    revalidatePath("/admin/artists/create");
-    revalidatePath("/admin/artists");
+    revalidatePath("/admin/songs/edit/" + data.id);
+    revalidatePath("/admin/songs/create");
+    revalidatePath("/admin/songs");
     revalidatePath("/");
     console.log(updatedArtist);
 

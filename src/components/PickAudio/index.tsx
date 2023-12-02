@@ -2,7 +2,7 @@
 import { upload } from "@/utils/upload";
 import { type ChangeEvent, useState } from "react";
 
-export const PickAudio = ({
+const PickAudioComponent = ({
   audio,
   setAudio,
   name,
@@ -39,5 +39,37 @@ export const PickAudio = ({
 
       {name && <input className="hidden" value={audio} readOnly name={name} />}
     </div>
+  );
+};
+
+type TName = {
+  name?: string;
+};
+type TPickAudioProps = (
+  | {
+      audio: string;
+      setAudio: (audio: string) => void;
+    }
+  | { audio?: string }
+) &
+  TName;
+
+export const PickAudio = ({ name, ...props }: TPickAudioProps) => {
+  const [audioLocal, setAudioLocal] = useState(props.audio || "");
+  if ("setAudio" in props) {
+    return (
+      <PickAudioComponent
+        setAudio={props.setAudio}
+        audio={props.audio}
+        name={name}
+      />
+    );
+  }
+  return (
+    <PickAudioComponent
+      audio={audioLocal}
+      setAudio={setAudioLocal}
+      name={name}
+    />
   );
 };
