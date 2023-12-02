@@ -109,6 +109,8 @@ model Song {
   playlists SongsOnPlaylists[]
   genres    GenresOfSongs[]
   tags      TagsOfSongs[]
+
+  createdAt DateTime @default(now())
 }
 
 model Album {
