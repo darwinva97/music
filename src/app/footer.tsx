@@ -3,6 +3,8 @@ import { cn } from "@/lib/utils";
 import { Play, SkipBack, SkipForward, Volume1, Volume2 } from "lucide-react";
 import Image from "next/image";
 import { HTMLAttributes } from "react";
+import { Player } from "./player";
+import { Track } from "./track";
 
 const TitleSong = ({ className, ...props }: HTMLAttributes<HTMLDivElement>) => (
   <div className={cn("flex gap-4", className)} {...props}>
@@ -33,34 +35,6 @@ const Volume = () => (
   </div>
 );
 
-const Player = () => (
-  <div
-    className={"flex items-center justify-end md:justify-start flex-1 gap-4"}
-  >
-    <SkipBack
-      color="#ffffff"
-      fill="white"
-      strokeWidth={1.75}
-      size={30}
-      cursor="pointer"
-    />
-    <Play
-      color="#ffffff"
-      fill="white"
-      strokeWidth={1.75}
-      size={30}
-      cursor="pointer"
-    />
-    <SkipForward
-      color="#ffffff"
-      fill="white"
-      strokeWidth={1.75}
-      size={30}
-      cursor="pointer"
-    />
-  </div>
-);
-
 const Buttons = ({ className, ...props }: HTMLAttributes<HTMLDivElement>) => (
   <div
     className={cn("flex items-center justify-around flex-1 gap-4", className)}
@@ -68,21 +42,6 @@ const Buttons = ({ className, ...props }: HTMLAttributes<HTMLDivElement>) => (
   >
     <Player />
     <Volume />
-  </div>
-);
-
-const Track = ({ className, ...props }: HTMLAttributes<HTMLDivElement>) => (
-  <div
-    className={cn("flex items-center justify-end w-full gap-2", className)}
-    {...props}
-  >
-    <span className="text-white">00:00</span>
-    <Slider
-      rangeClassName="bg-red-500"
-      trackClassName="bg-red-500"
-      thumbClassName="cursor-pointer"
-    />
-    <span className="text-white">00:00</span>
   </div>
 );
 
