@@ -39,6 +39,7 @@ export async function createBand(
         name: data.name,
         photo: data.photo,
         coverPhoto: data.coverPhoto,
+        slug: data.name.replaceAll(" ", "-").toLowerCase(),
         songs: {
           connect: data.songs.map((song) => ({ id: song })),
         },
