@@ -1,7 +1,10 @@
 "use client";
 
+import { ContainerImage } from "@/components/ContainerImage";
+import { Artist } from "@prisma/client";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 import { useState } from "react";
 import Carousel from "react-multi-carousel";
 
@@ -25,20 +28,25 @@ const responsive = {
   },
 };
 
-const Card = ({ artist }: { artist: string }) => {
+const Card = ({ name, photo }: Artist) => {
   return (
-    <div className={"inline-flex flex-col w-[150]"}>
-      <Image
-        src="https://appsbuildin2.click/musica/go/images/dashboard/feature-album/04.png"
-        alt={artist}
+    <Link
+      href={`/artist/${name}`}
+      className={"inline-flex flex-col w-[150] cursor-pointer"}
+    >
+      <ContainerImage
+        image={
+          photo ||
+          "https://appsbuildin2.click/musica/go/images/dashboard/feature-album/04.png"
+        }
         width={150}
         height={150}
         className={"rounded-tr-[5rem] rounded-bl-[5rem]"}
       />
       <div className="flex flex-col items-center p-4">
-        <strong>{artist}</strong>
+        <strong>{name}</strong>
       </div>
-    </div>
+    </Link>
   );
 };
 
@@ -61,7 +69,7 @@ const ButtonGroup = ({ carousel }: { carousel: Carousel }) => {
   );
 };
 
-export const Artists = () => {
+export const Artists = ({ artists }: { artists: Artist[] }) => {
   const [carousel, setCarousel] = useState<null | Carousel>(null);
 
   return (
@@ -78,14 +86,12 @@ export const Artists = () => {
           ref={(el) => setCarousel(el)}
           arrows={false}
           responsive={responsive}
-          
         >
-          <Card artist="Patricia Kaas" />
-          <Card artist="Lewis Capaldi" />
-          <Card artist="Patricia Kaas" />
-          <Card artist="Lewis Capaldi" />
-          <Card artist="Patricia Kaas" />
-          <Card artist="Lewis Capaldi" />
+          {artists
+            .filter((artist) => artist.featured)
+            .map((artist) => {
+              return <Card {...artist} key={artist.id} />;
+            })}
         </Carousel>
       </div>
     </section>

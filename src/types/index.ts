@@ -1,4 +1,8 @@
-import { Artist, Song, SongsOnArtist } from "@prisma/client";
+import { Artist, Band, Song, SongsOnArtist } from "@prisma/client";
+
+export type TBandFull = Band & {
+  songs: Song[];
+};
 
 export type TArtistFull = Artist & {
   songs: (SongsOnArtist & {

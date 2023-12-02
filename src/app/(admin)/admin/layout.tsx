@@ -31,17 +31,22 @@ const Layout = ({ children }: { children: ReactNode }) => {
                 <ul className="flex flex-col p-2 gap-2 pt-4 text-xl">
                   <li className="ml-0">
                     <Link href="/admin/songs">
-                      <SheetClose>Songs</SheetClose>
+                      <SheetClose>Canciones</SheetClose>
                     </Link>
                   </li>
                   <li className="ml-0">
                     <Link href="/admin/artists">
-                      <SheetClose>Artists</SheetClose>
+                      <SheetClose>Artistas</SheetClose>
+                    </Link>
+                  </li>
+                  <li className="ml-0">
+                    <Link href="/admin/bands">
+                      <SheetClose>Bandas</SheetClose>
                     </Link>
                   </li>
                   <li className="ml-0">
                     <Link href="/admin/albums">
-                      <SheetClose>Albums</SheetClose>
+                      <SheetClose>Albumes</SheetClose>
                     </Link>
                   </li>
                   <li className="ml-0">

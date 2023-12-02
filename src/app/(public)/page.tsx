@@ -8,22 +8,30 @@ import "react-multi-carousel/lib/styles.css";
 import { TrendingSongs } from "./trending";
 
 export default async function ProfilePage() {
-  await db.song.findMany({
+  const songs = await db.song.findMany({
     include: {
-      artists: true,
+      artists: {
+        include: {
+          artist: true,
+        },
+      },
       band: true,
-      playlists: true,
+      playlists: {
+        include: {
+          playlist: true,
+        },
+      },
     },
   });
-  // return <pre>{JSON.stringify(session, null, 2)}</pre>;
+  const artists = await db.artist.findMany();
   return (
     <div>
       <Hero />
       <Albums />
-      <Artists />
-      <TrendingSongs />
-      <HotSongs />
-      <HotVideos />
+      <Artists artists={artists} />
+      <TrendingSongs songs={songs} />
+      <HotSongs songs={songs} />
+      <HotVideos songs={songs} />
     </div>
-  )
+  );
 }

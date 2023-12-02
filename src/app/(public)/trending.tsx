@@ -1,3 +1,5 @@
+import { ContainerImage } from "@/components/ContainerImage";
+import { Song } from "@prisma/client";
 import { ChevronRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -10,9 +12,9 @@ type TCardProps = {
 };
 const Card = ({ photo, name, artist }: TCardProps) => {
   return (
-    <div className="flex flex-col w-[full] flex-1">
-      <Image src={photo} width={300} height={260} alt={name} />
-      <div className="flex flex-col gap-2 p-4 items-center">
+    <div className="inline-flex flex-col flex-start h-full">
+      <ContainerImage image={photo} width={300} height={260} />
+      <div className="inline-flex flex-col gap-2 p-4 text-center max-w-[300px]">
         <strong>{name}</strong>
         <span>{artist}</span>
       </div>
@@ -20,7 +22,14 @@ const Card = ({ photo, name, artist }: TCardProps) => {
   );
 };
 
-export const TrendingSongs = () => {
+export const TrendingSongs = ({
+  songs,
+}: {
+  songs: (Song & {
+    band: { name: string } | null;
+    artists: { artist: { name: string } }[];
+  })[];
+}) => {
   return (
     <section className="m-4 rounded-xl shadow-xl overflow-hidden">
       <header className="p-4 text-2xl flex justify-between">
@@ -31,18 +40,23 @@ export const TrendingSongs = () => {
         </Link>
       </header>
       <hr />
-      <div className="p-4 flex flex-wrap gap-4">
-        <Card
-          photo="https://appsbuildin2.click/musica/go/images/dashboard/tranding-song/01.png"
-          name="Life Is Good"
-          artist="Billie Eilish"
-        />
-
-        <Card
-          photo="https://appsbuildin2.click/musica/go/images/dashboard/tranding-song/02.png"
-          name="Death Bed"
-          artist="Normani"
-        />
+      <div className="grid grid-cols-[repeat(auto-fill,minmax(300px,1fr))] auto-rows-max gap-4">
+        {songs
+          .filter((song) => song.trending)
+          .map((song) => (
+            <Card
+              key={song.id}
+              photo={
+                song.photo ||
+                "https://appsbuildin2.click/musica/go/images/dashboard/tranding-song/01.png"
+              }
+              name={song.name}
+              artist={
+                song.band?.name ||
+                song.artists.map((artist) => artist.artist.name).join(", ")
+              }
+            />
+          ))}
       </div>
     </section>
   );

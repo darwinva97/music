@@ -5,16 +5,16 @@ import { DataTable } from "./data-table";
 import { columns } from "./columns";
 
 const Page = async () => {
-  const songs = await db.artist.findMany();
+  const bands = await db.band.findMany();
   return (
     <div>
     <header className="flex gap-3 items-center justify-center mb-6">
-      <h1 className="text-2xl">Artists</h1>
-      <Link href="/admin/artists/create">
+      <h1 className="text-2xl">Bandas</h1>
+      <Link href="/admin/bands/create">
         <Button>Create</Button>
       </Link>
     </header>
-      <DataTable columns={columns} data={songs} />
+      <DataTable columns={columns} data={bands} />
     </div>
   );
 };
