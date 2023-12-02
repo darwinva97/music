@@ -37,4 +37,8 @@ export const columns: ColumnDef<Song>[] = [
     accessorKey: "featured",
     header: "Featured",
   },
+  {
+    accessorKey: "actions",
+    header: "Actions",
+  },
 ];

@@ -11,7 +11,7 @@ export type TArtistFull = Artist & {
 };
 
 export type TSongFull = Song & {
-  artists: SongsOnArtist[];
+  artists: (SongsOnArtist & { artist: TArtistFull })[];
 };
 
 export * from "./form";

@@ -16,6 +16,9 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import Image from "next/image";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import { Song } from "@prisma/client";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -61,6 +64,21 @@ export function DataTable<TData, TValue>({
                 data-state={row.getIsSelected() && "selected"}
               >
                 {row.getVisibleCells().map((cell) => {
+                  const isActions = cell.column.columnDef.header === "Actions";
+                  const song = cell.row.original as Song;
+                  if (isActions) {
+                    return (
+                      <TableCell key={cell.id}>
+                        <div className="flex gap-2">
+                          <Link href={"/admin/songs/edit/" + song.id}>
+                            <Button>Edit</Button>
+                          </Link>
+                          <Button>Delete</Button>
+                        </div>
+                      </TableCell>
+                    );
+                  }
+
                   const value = cell.getValue<string | null>();
                   if (
                     !value ||
