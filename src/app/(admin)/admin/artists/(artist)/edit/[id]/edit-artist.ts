@@ -68,7 +68,7 @@ export const editArtist = async (
     revalidatePath("/");
 
     return {
-      message: "Done",
+      message: "Realizado",
     };
   } catch (error) {
     return {

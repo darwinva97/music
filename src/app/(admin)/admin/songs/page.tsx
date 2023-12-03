@@ -14,7 +14,9 @@ const Page = async () => {
           <Button>Create</Button>
         </Link>
       </header>
-      <DataTable columns={columns} data={songs} />
+      <main className="flex justify-center">
+        <DataTable columns={columns} data={songs} />
+      </main>
     </div>
   );
 };

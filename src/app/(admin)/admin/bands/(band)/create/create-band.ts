@@ -49,7 +49,7 @@ export async function createBand(
     revalidatePath("/");
     console.log(newBand);
     return {
-      message: "Done!",
+      message: "Realizado!",
     };
   } catch (error) {
     return {

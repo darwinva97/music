@@ -1,6 +1,7 @@
 "use client";
 import { upload } from "@/utils/upload";
 import { type ChangeEvent, useState } from "react";
+import { Button } from "../ui/button";
 
 const PickAudioComponent = ({
   audio,
@@ -23,17 +24,23 @@ const PickAudioComponent = ({
   };
 
   return (
-    <div className="flex gap-1">
+    <div className="flex items-center gap-1">
       {audio && <audio controls src={audio}></audio>}
-      <label className="btn btn-primary btn-sm">
-        <span>{loading ? "Loading..." : "Upload Audio"}</span>
-        <input
-          type="file"
-          // disabled={loading}
-          className="file-input file-input-sm hidden w-full max-w-xs"
-          onChange={(e) => void onChangeFile(e)}
-        />
-      </label>
+      <Button
+        type="button"
+        disabled={loading}
+        onClick={(e) => e.stopPropagation()}
+      >
+        <label className="btn btn-primary btn-sm cursor-pointer">
+          <span>{loading ? "Loading..." : "Upload Audio"}</span>
+          <input
+            type="file"
+            disabled={loading}
+            className="file-input file-input-sm hidden w-full max-w-xs cursor-pointer"
+            onChange={(e) => void onChangeFile(e)}
+          />
+        </label>
+      </Button>
 
       {name && <input className="hidden" value={audio} readOnly name={name} />}
     </div>

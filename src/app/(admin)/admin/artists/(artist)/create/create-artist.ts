@@ -49,7 +49,7 @@ export async function createArtist(
     revalidatePath("/");
     console.log(newArtist);
     return {
-      message: "Done!",
+      message: "Realizado!",
     };
   } catch (error) {
     return {

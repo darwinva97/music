@@ -14,6 +14,7 @@ const editSongSchema = z.object({
   artists: z.array(z.string()),
   band: z.string().optional(),
   audioSrc: z.string().optional(),
+  videoSrc: z.string().optional(),
 });
 
 export const editSong = async (
@@ -30,6 +31,7 @@ export const editSong = async (
       band: formData.get("band") || "",
       artists: formData.getAll("artists").filter(Boolean),
       audioSrc: formData.get("audioSrc") || "",
+      videoSrc: formData.get("videoSrc") || "",
     };
     const resultParse = editSongSchema.safeParse(dataToParse);
 
@@ -41,12 +43,6 @@ export const editSong = async (
     }
 
     const data = resultParse.data;
-
-    // await db.songsOnArtist.deleteMany({
-    //   where: {
-    //     songId: data.id,
-    //   },
-    // });
 
     const existingArtists = await Promise.all(
       data.artists.map(async (artist) => {
@@ -70,6 +66,7 @@ export const editSong = async (
             coverPhoto: data.coverPhoto,
             featured: data.featured,
             audioSrc: data.audioSrc,
+            videoSrc: data.videoSrc,
             artists: {
               connectOrCreate: validArtists.map((artist) => ({
                 where: {
@@ -100,6 +97,7 @@ export const editSong = async (
             coverPhoto: data.coverPhoto,
             featured: data.featured,
             audioSrc: data.audioSrc,
+            videoSrc: data.videoSrc,
             artists: {
               connectOrCreate: validArtists.map((artist) => ({
                 where: {
@@ -127,7 +125,7 @@ export const editSong = async (
     revalidatePath("/");
 
     return {
-      message: "Done",
+      message: "Realizado",
     };
   } catch (error) {
     return {

@@ -39,6 +39,9 @@ async function EditSong({ params: { id } }: { params: { id: string } }) {
       artists &&
       song && (
         <div>
+          <h1 className="text-3xl text-center mt-4 mb-10">
+            Edicion de: {song.name}
+          </h1>
           <EditForm song={song} artists={artists} bands={bands} />
         </div>
       )
