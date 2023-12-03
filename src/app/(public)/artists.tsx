@@ -28,10 +28,10 @@ const responsive = {
   },
 };
 
-const Card = ({ name, photo }: Artist) => {
+const Card = ({ name, photo, slug }: Artist) => {
   return (
     <Link
-      href={`/artist/${name}`}
+      href={`/artist/${slug}`}
       className={"inline-flex flex-col w-[150] cursor-pointer"}
     >
       <ContainerImage

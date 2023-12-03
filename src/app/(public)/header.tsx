@@ -1,16 +1,15 @@
-import { Input } from "@/components/ui/input";
 import {
   Sheet,
   SheetClose,
   SheetContent,
   SheetDescription,
   SheetHeader,
-  SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { Menu } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { SearchInput } from "./search-input";
 
 export const Header = () => {
   return (
@@ -18,7 +17,7 @@ export const Header = () => {
       <Link href={"/"}>
         <Image src="/vercel.svg" alt="Logo" width={120} height={27} />
       </Link>
-      <Input className="w-auto" placeholder="Search" />
+      <SearchInput />
 
       <ul className="hidden md:flex p-2 gap-6">
         <li className="ml-0">

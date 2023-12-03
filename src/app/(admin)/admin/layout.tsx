@@ -77,7 +77,7 @@ const Layout = ({ children }: { children: ReactNode }) => {
           </SheetContent>
         </Sheet>
       </header>
-      <main>{children}</main>
+      <main className="p-2 md:p-4">{children}</main>
     </div>
   );
 };

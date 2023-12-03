@@ -1,9 +1,7 @@
+import { redirect } from "next/navigation";
+
 const Page = () => {
-  return (
-    <div>
-      <h1>Admin</h1>
-    </div>
-  );
+  redirect("/admin/songs");
 };
 
 export default Page;
