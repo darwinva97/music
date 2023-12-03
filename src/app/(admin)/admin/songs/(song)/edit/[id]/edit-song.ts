@@ -59,7 +59,7 @@ export const editSong = async (
 
     const validArtists = existingArtists.filter((artist) => artist !== null);
 
-    const updatedArtist = data.band
+    data.band
       ? await db.song.update({
           where: {
             id: data.id,
@@ -125,7 +125,6 @@ export const editSong = async (
     revalidatePath("/admin/songs/create");
     revalidatePath("/admin/songs");
     revalidatePath("/");
-    console.log(updatedArtist);
 
     return {
       message: "Done",

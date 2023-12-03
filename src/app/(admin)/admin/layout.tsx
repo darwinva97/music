@@ -1,5 +1,4 @@
 "use client";
-import { Button } from "@/components/ui/button";
 import {
   Sheet,
   SheetClose,
@@ -9,10 +8,11 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { Menu } from "lucide-react";
-import { signOut } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
 import { type ReactNode } from "react";
+import { Button } from "@/components/ui/button";
+import { logout } from "./action-sigout";
 
 const Layout = ({ children }: { children: ReactNode }) => {
   return (
@@ -56,7 +56,11 @@ const Layout = ({ children }: { children: ReactNode }) => {
                   </li>
                   <li className="ml-0">
                     <SheetClose>
-                      <Button onClick={() => void signOut()}>Sign Out</Button>
+                      <form action={logout} method="post">
+                        <button className="flex h-[48px] grow items-center justify-center gap-2 rounded-md bg-gray-50 p-3 text-sm font-medium hover:bg-sky-100 hover:text-blue-600 md:flex-none md:justify-start md:p-2 md:px-3">
+                          <Button>Sign Out</Button>
+                        </button>
+                      </form>
                     </SheetClose>
                   </li>
                 </ul>

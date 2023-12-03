@@ -44,7 +44,7 @@ export const editArtist = async (
       },
     });
 
-    const updatedArtist = await db.artist.update({
+    await db.artist.update({
       where: {
         id: data.id,
       },
@@ -66,7 +66,6 @@ export const editArtist = async (
     revalidatePath("/admin/artists/create");
     revalidatePath("/admin/artists");
     revalidatePath("/");
-    console.log(updatedArtist);
 
     return {
       message: "Done",

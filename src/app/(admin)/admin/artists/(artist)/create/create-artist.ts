@@ -15,10 +15,9 @@ type TState = {
   message: string | null;
 };
 export async function createArtist(
-  prevState: TState,
+  _prevState: TState,
   formData: FormData
 ): Promise<TState> {
-  console.log(prevState, "prevState");
   try {
     const payload = {
       name: formData.get("name"),

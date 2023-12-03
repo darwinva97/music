@@ -15,12 +15,10 @@ const PickAudioComponent = ({
 
   const onChangeFile = async (e: ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
-    console.log("Changing file");
     setLoading(true);
     const audio = e.target.files![0]!;
     const secure_url = await upload(audio, "auto");
     setAudio(secure_url);
-    console.log(secure_url);
     setLoading(false);
   };
 

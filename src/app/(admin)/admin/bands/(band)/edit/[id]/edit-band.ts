@@ -38,7 +38,7 @@ export const editBand = async (
 
     const data = resultParse.data;
 
-    const updatedBand = await db.band.update({
+    await db.band.update({
       where: {
         id: data.id,
       },
@@ -57,7 +57,6 @@ export const editBand = async (
     revalidatePath("/admin/artists/create");
     revalidatePath("/admin/artists");
     revalidatePath("/");
-    console.log(updatedBand);
 
     return {
       message: "Done",

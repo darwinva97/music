@@ -1,58 +1,52 @@
-import NextAuth, { type NextAuthOptions } from "next-auth";
-import { PrismaAdapter } from "@next-auth/prisma-adapter";
-import { db } from "@/db";
-import CredentialsProvider from "next-auth/providers/credentials";
+"use server";
+import NextAuth from "next-auth";
+import Credentials from "next-auth/providers/credentials";
+import { authConfig } from "./auth.config";
+import { z } from "zod";
+import { db } from "./db";
+import { redirect } from "next/navigation";
 
-export const authConfig = {
+const { auth, signIn, signOut, handlers } = NextAuth({
+  ...authConfig,
   providers: [
-    CredentialsProvider({
-      name: "Credentials",
-      type: "credentials",
-      credentials: {
-        email: { label: "Email", type: "text", placeholder: "juan@me.com" },
-        password: { label: "Contraseña", type: "password" },
-      },
-      async authorize(
-        credentials: Record<"email" | "password", string> | undefined
-      ) {
-        try {
-          if (!(credentials?.email && credentials?.password)) return null;
-          const user = await db.user.findUniqueOrThrow({
+    Credentials({
+      async authorize(credentials) {
+        const parsedCredentials = z
+          .object({ email: z.string().email(), password: z.string().min(6) })
+          .safeParse(credentials);
+
+        let callbackUrl = credentials?.callbackUrl as string | undefined;
+        if (callbackUrl) {
+          const parts = callbackUrl.split("?callbackUrl=");
+          if (parts[1]) {
+            callbackUrl = parts[1];
+          }
+        }
+
+        if (parsedCredentials.success) {
+          const { email, password } = parsedCredentials.data;
+          const user = await db.user.findUnique({
             where: {
-              email: credentials.email.trim().toLowerCase(),
-              password: credentials.password.trim(),
+              email,
+              password,
             },
           });
+
+          // callbackUrl && redirect(callbackUrl);
+
           return user;
-        } catch (error) {
-          console.error(error);
-          return null;
         }
+
+        console.log("Invalid credentials");
+        return null;
       },
     }),
   ],
-  adapter: PrismaAdapter(db),
-  callbacks: {
-    jwt: ({ token, user }) => {
-      if (user) {
-        token.id = user.id;
-      }
-      return token;
-    },
-    session: ({ session, user = {}, token = {} }) => {
-      return {
-        ...session,
-        user: {
-          ...session.user,
-          id: user.id ?? token.id,
-        },
-      };
-    },
-  },
-  session: {
-    strategy: "jwt",
-    maxAge: 60 * 60 * 24 * 30,
-  },
-} satisfies NextAuthOptions;
+});
 
-export const handler = NextAuth(authConfig);
+const getHandlers = async () => {
+  const { GET, POST } = handlers;
+  return { GET, POST };
+};
+
+export { auth, signIn, signOut, getHandlers };

@@ -15,12 +15,10 @@ export const PickVideo = ({
 
   const onChangeFile = async (e: ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
-    console.log("Changing file");
     setLoading(true);
     const video = e.target.files![0]!;
     const secure_url = await upload(video, "video");
     setVideo(secure_url);
-    console.log(secure_url);
     setLoading(false);
   };
 
