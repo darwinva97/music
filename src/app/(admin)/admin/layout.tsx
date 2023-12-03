@@ -55,11 +55,19 @@ const Layout = ({ children }: { children: ReactNode }) => {
                     </Link>
                   </li>
                   <li className="ml-0">
+                    <Link href="/admin/genres">
+                      <SheetClose>Generos</SheetClose>
+                    </Link>
+                  </li>
+                  <li className="ml-0">
+                    <Link href="/admin/tags">
+                      <SheetClose>Etiquetas</SheetClose>
+                    </Link>
+                  </li>
+                  <li className="ml-0">
                     <SheetClose>
                       <form action={logout} method="post">
-                        <button className="flex h-[48px] grow items-center justify-center gap-2 rounded-md bg-gray-50 p-3 text-sm font-medium hover:bg-sky-100 hover:text-blue-600 md:flex-none md:justify-start md:p-2 md:px-3">
-                          <Button>Sign Out</Button>
-                        </button>
+                        <Button>Sign Out</Button>
                       </form>
                     </SheetClose>
                   </li>

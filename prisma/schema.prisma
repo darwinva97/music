@@ -72,6 +72,8 @@ model Artist {
   songs  SongsOnArtist[]
   albums AlbumsOnArists[]
   bands  ArtistsOnBands[]
+
+  createdAt DateTime @default(now())
 }
 
 model Band {
@@ -86,6 +88,8 @@ model Band {
   albums  Album[]
   artists ArtistsOnBands[]
   songs   Song[]
+
+  createdAt DateTime @default(now())
 }
 
 model Song {
@@ -127,6 +131,8 @@ model Album {
   artists AlbumsOnArists[]
   band    Band?            @relation(fields: [bandId], references: [id], onUpdate: Cascade, onDelete: Cascade)
   bandId  String?          @db.ObjectId
+
+  createdAt DateTime @default(now())
 }
 
 model Playlist {
@@ -140,6 +146,8 @@ model Playlist {
   featured    Boolean @default(true)
 
   songs SongsOnPlaylists[]
+
+  createdAt DateTime @default(now())
 }
 
 model Genre {
