@@ -1,6 +1,8 @@
 const AlbumsPage = () => {
   return (
-    <div>AlbumsPage</div>
+    <div>
+      <h1 className="text-2xl text-center mt-4 mb-10">Albums</h1>
+    </div>
   )
 }
 

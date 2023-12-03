@@ -1,19 +1,54 @@
 "use client";
 import { useStore } from "@/store";
 import { Pause, Play, SkipBack, SkipForward } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 
 export const Player = () => {
   const audioRef = useRef<HTMLAudioElement>(null);
   const {
-    song,
+    initInteraction,
+    setInitInteraction,
+    songs,
     volume,
     setDuration,
     lastTime,
     setCurrentTime,
     isPlaying,
     setIsPlaying,
+    nextSong,
+    previousSong,
   } = useStore();
+
+  const song = useMemo(() => {
+    return songs.find((song) => song.current)?.song;
+  }, [songs]);
+
+  const playAudio = async () => {
+    if (!audioRef.current) {
+      return;
+    }
+    try {
+      await audioRef.current.play();
+    } catch (error) {
+      setIsPlaying(false);
+    }
+  };
+
+  useEffect(() => {
+    if (initInteraction || !audioRef.current) {
+      return;
+    }
+    const fn = () => {
+      if (isPlaying && audioRef.current?.paused && !initInteraction) {
+        playAudio();
+        setInitInteraction(true);
+      }
+    };
+    window.addEventListener("click", fn);
+    return () => {
+      window.removeEventListener("click", fn);
+    };
+  }, [isPlaying, initInteraction, audioRef.current]);
 
   useEffect(() => {
     if (!audioRef.current) {
@@ -28,32 +63,46 @@ export const Player = () => {
         return;
       }
       setCurrentTime(audioRef.current.currentTime);
+      // setIsPlaying(true);
     };
 
-    const handlePlayPause = () => {
-      setIsPlaying(!isPlaying);
+    const handlePlay = () => {
+      setIsPlaying(true);
+    };
+    const handlePause = () => {
+      setIsPlaying(false);
     };
 
     audioRef.current.addEventListener("timeupdate", handleTimeUpdate);
-    audioRef.current.addEventListener("play", handlePlayPause);
-    audioRef.current.addEventListener("pause", handlePlayPause);
+    audioRef.current.addEventListener("play", handlePlay);
+    audioRef.current.addEventListener("pause", handlePause);
 
+    if (isPlaying && audioRef.current.paused) {
+      playAudio();
+    }
     // Limpiar los event listeners cuando el componente se desmonta
     return () => {
       if (!audioRef.current) {
         return;
       }
       audioRef.current.removeEventListener("timeupdate", handleTimeUpdate);
-      audioRef.current.removeEventListener("play", handlePlayPause);
-      audioRef.current.removeEventListener("pause", handlePlayPause);
+      audioRef.current.removeEventListener("play", handlePlay);
+      audioRef.current.removeEventListener("pause", handlePause);
     };
   }, [isPlaying]);
 
   useEffect(() => {
     setCurrentTime(0);
-    audioRef.current?.play();
     setIsPlaying(true);
+    playAudio();
   }, [song]);
+
+  useEffect(() => {
+    if (!audioRef.current) return;
+    if (isPlaying) {
+      playAudio();
+    }
+  }, [isPlaying]);
 
   useEffect(() => {
     if (!audioRef.current) return;
@@ -65,18 +114,33 @@ export const Player = () => {
     audioRef.current.volume = volume / 100;
   }, [volume]);
 
+  const disableNext = useMemo(() => {
+    return !song || song?.id === songs[songs.length - 1]?.song.id;
+  }, [song, songs]);
+
+  const disablePrev = useMemo(() => {
+    return !song || song?.id === songs[0]?.song.id;
+  }, [song, songs]);
+
   return (
     <div
       className={"flex items-center justify-end md:justify-start flex-1 gap-4"}
     >
       <SkipBack
-        color="#ffffff"
-        fill="white"
+        color={disablePrev ? "#cccccc" : "#ffffff"}
+        fill={disablePrev ? "#cccccc" : "#ffffff"}
+        cursor={disablePrev ? "not-allowed" : "pointer"}
         strokeWidth={1.75}
         size={30}
-        cursor="pointer"
+        onClick={() => {
+          if (disablePrev) {
+            return;
+          }
+          previousSong();
+          setIsPlaying(true);
+        }}
       />
-      {isPlaying ? (
+      {!isPlaying ? (
         <Play
           color="#ffffff"
           fill="white"
@@ -87,7 +151,7 @@ export const Player = () => {
             if (!audioRef.current) {
               return;
             }
-            audioRef.current.play();
+            playAudio();
             setIsPlaying(true);
           }}
         />
@@ -108,39 +172,41 @@ export const Player = () => {
         />
       )}
       <SkipForward
-        color="#ffffff"
-        fill="white"
+        color={disableNext ? "#cccccc" : "#ffffff"}
+        fill={disableNext ? "#cccccc" : "#ffffff"}
+        cursor={disableNext ? "not-allowed" : "pointer"}
         strokeWidth={1.75}
         size={30}
-        cursor="pointer"
+        onClick={() => {
+          if (disableNext) {
+            return;
+          }
+          nextSong();
+          setIsPlaying(true);
+        }}
       />
-      {song?.audioSrc ? (
-        <audio
-          ref={audioRef}
-          onLoadedMetadata={() => {
-            if (!audioRef.current) {
-              return;
-            }
-            setDuration(audioRef.current.duration);
-          }}
-          onTimeUpdate={() => {
-            if (!audioRef.current) {
-              return;
-            }
-            setCurrentTime(audioRef.current.currentTime);
-          }}
-          src={song?.audioSrc}
-          autoPlay
-          onEnded={() => {
-            if (!audioRef.current) {
-              return;
-            }
-            setIsPlaying(false);
-          }}
-        />
-      ) : (
-        <audio ref={audioRef} src="tu_archivo_de_audio.mp3" />
-      )}
+      <audio
+        ref={audioRef}
+        onLoadedMetadata={() => {
+          if (!audioRef.current) {
+            return;
+          }
+          setDuration(audioRef.current.duration);
+        }}
+        onTimeUpdate={() => {
+          if (!audioRef.current) {
+            return;
+          }
+          setCurrentTime(audioRef.current.currentTime);
+        }}
+        src={song?.audioSrc || ""}
+        onEnded={() => {
+          if (!audioRef.current) {
+            return;
+          }
+          setIsPlaying(false);
+        }}
+      />
     </div>
   );
 };

@@ -26,7 +26,7 @@ export default async function ProfilePage() {
   const artists = await db.artist.findMany();
   return (
     <div>
-      <Hero />
+      <Hero songs={songs.slice(0, 4)} />
       <Albums />
       <Artists artists={artists} />
       <TrendingSongs songs={songs} />

@@ -10,14 +10,31 @@ async function EditArtist({ params: { id } }: { params: { id: string } }) {
       include: {
         songs: {
           include: {
-            song: true,
+            song: {
+              include: {
+                artists: true,
+              },
+            },
           },
         },
+        bands: true,
       },
     });
     const songsPromise = db.song.findMany({
       include: {
-        artists: true,
+        artists: {
+          include: {
+            artist: {
+              include: {
+                songs: {
+                  include: {
+                    song: true,
+                  },
+                },
+              },
+            },
+          },
+        },
       },
     });
     const [artist, songs] = await Promise.all([artistPromise, songsPromise]);

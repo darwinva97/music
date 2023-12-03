@@ -20,7 +20,7 @@ const LiAnimate = ({ delay = 0 }: { delay?: number }) => (
 
 export const Equalizer = () => {
   return (
-    <ul className="flex items-end gap-1 h-[50px]">
+    <ul className="flex items-end gap-1 min-h-[50px]">
       <LiAnimate />
       <LiAnimate delay={0.75} />
       <LiAnimate delay={0.25} />

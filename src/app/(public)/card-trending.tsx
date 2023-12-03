@@ -5,12 +5,12 @@ import { TSong } from "@/types";
 
 export const CardTrending = (song: TSong) => {
   const { photo, name, band, artists } = song;
-  const { setSong } = useStore();
+  const { playSong } = useStore();
   return (
     <div
-      className="inline-flex flex-col flex-start h-full"
+      className="inline-flex flex-col items-center h-full"
       onClick={() => {
-        setSong(song);
+        playSong(song);
       }}
     >
       <ContainerImage

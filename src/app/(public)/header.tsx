@@ -33,7 +33,7 @@ export const Header = () => {
           <Link href="/trending">Trending</Link>
         </li>
         <li className="ml-0">
-          <Link href="/genre">Géneros</Link>
+          <Link href="/genres">Géneros</Link>
         </li>
       </ul>
 

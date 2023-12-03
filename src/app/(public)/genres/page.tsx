@@ -1,7 +1,9 @@
 const GenrePages = () => {
   return (
-    <div>GenrePages</div>
-  )
-}
+    <div>
+      <h1 className="text-2xl text-center mt-4 mb-10">Generos</h1>
+    </div>
+  );
+};
 
-export default GenrePages
+export default GenrePages;

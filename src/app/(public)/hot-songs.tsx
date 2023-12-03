@@ -25,7 +25,7 @@ import { TSong, TSongFull } from "@/types";
 //   })[];
 const Card = ({ cards }: { cards: TSong[] }) => {
   // };
-  const { setSong } = useStore();
+  const { playSong } = useStore();
   return (
     <div className="flex flex-col gap-4">
       {cards.map((song, index) => {
@@ -35,7 +35,7 @@ const Card = ({ cards }: { cards: TSong[] }) => {
             key={index}
             className="flex gap-2"
             onClick={() => {
-              song && setSong(song);
+              song && playSong(song);
             }}
           >
             <ContainerImage
@@ -60,7 +60,6 @@ const Card = ({ cards }: { cards: TSong[] }) => {
     </div>
   );
 };
-
 
 type THotSongsProps = {
   songs: TSong[];

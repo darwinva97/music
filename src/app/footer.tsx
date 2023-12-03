@@ -8,7 +8,8 @@ import { useStore } from "@/store";
 import { ContainerImage } from "@/components/ContainerImage";
 
 const TitleSong = ({ className, ...props }: HTMLAttributes<HTMLDivElement>) => {
-  const { song } = useStore();
+  const { songs } = useStore();
+  const song = songs.find((song) => song.current)?.song;
   return (
     <div className={cn("flex gap-4", className)} {...props}>
       <ContainerImage
