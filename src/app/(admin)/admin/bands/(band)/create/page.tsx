@@ -5,7 +5,19 @@ const CreateSong = async () => {
   try {
     const songs = await db.song.findMany({
       include: {
-        artists: true,
+        artists: {
+          include: {
+            artist: {
+              include: {
+                songs: {
+                  include: {
+                    song: true,
+                  },
+                },
+              },
+            },
+          },
+        },
       },
     });
 
