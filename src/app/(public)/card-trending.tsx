@@ -4,7 +4,7 @@ import { useStore } from "@/store";
 import { TSong } from "@/types";
 
 export const CardTrending = (song: TSong) => {
-  const { photo, name, band, artists } = song;
+  const { photo, song_name, band, artists } = song;
   const { playSong } = useStore();
   return (
     <div
@@ -13,18 +13,12 @@ export const CardTrending = (song: TSong) => {
         playSong(song);
       }}
     >
-      <ContainerImage
-        image={
-          photo ||
-          "https://appsbuildin2.click/musica/go/images/dashboard/tranding-song/01.png"
-        }
-        width={300}
-        height={260}
-      />
+      <ContainerImage image={photo.rendered} width={300} height={260} />
       <div className="inline-flex flex-col gap-2 p-4 text-center max-w-[300px]">
-        <strong>{name}</strong>
+        <strong>{song_name.rendered}</strong>
         <span>
-          {band?.name || artists.map((artist) => artist.artist.name).join(", ")}
+          {band?.rendered ||
+            artists.value.map((artist) => artist.artist_name).join(", ")}
         </span>
       </div>
     </div>

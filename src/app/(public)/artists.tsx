@@ -1,12 +1,12 @@
 "use client";
-
+import { TWpArtist } from "@/api/artist";
 import { ContainerImage } from "@/components/ContainerImage";
-import { Artist } from "@prisma/client";
 import { ArrowLeft, ArrowRight } from "lucide-react";
-import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 import Carousel from "react-multi-carousel";
+
+type Artist = TWpArtist;
 
 const responsive = {
   superLargeDesktop: {
@@ -28,23 +28,20 @@ const responsive = {
   },
 };
 
-const Card = ({ name, photo, slug }: Artist) => {
+const Card = ({ artist_name, photo, slug }: Artist) => {
   return (
     <Link
       href={`/artist/${slug}`}
       className={"inline-flex flex-col w-[150] cursor-pointer"}
     >
       <ContainerImage
-        image={
-          photo ||
-          "https://appsbuildin2.click/musica/go/images/dashboard/feature-album/04.png"
-        }
+        image={photo.rendered}
         width={150}
         height={150}
         className={"rounded-tr-[5rem] rounded-bl-[5rem]"}
       />
       <div className="flex flex-col items-center p-4">
-        <strong>{name}</strong>
+        <strong>{artist_name.rendered}</strong>
       </div>
     </Link>
   );

@@ -7,7 +7,6 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { Menu } from "lucide-react";
-import Image from "next/image";
 import Link from "next/link";
 import { SearchInput } from "./search-input";
 
@@ -15,7 +14,7 @@ export const Header = () => {
   return (
     <header className="flex items-center justify-between p-4 sticky top-0 left-0 w-full bg-white shadow-sm z-20">
       <Link href={"/"}>
-        <Image src="/vercel.svg" alt="Logo" width={120} height={27} />
+        <span className="text-3xl">OstDoramas</span>
       </Link>
       <SearchInput />
 

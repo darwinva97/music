@@ -6,8 +6,15 @@ const nextConfig = {
         hostname: "res.cloudinary.com",
       },
       {
-        hostname: "appsbuildin2.click"
-      }
+        hostname: "appsbuildin2.click",
+      },
+      // s3 bucket
+      {
+        hostname: "s3.amazonaws.com",
+      },
+      {
+        hostname: "ostdoramas.s3.us-east-2.amazonaws.com",
+      },
     ],
   },
 };

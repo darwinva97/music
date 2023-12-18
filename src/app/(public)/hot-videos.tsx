@@ -1,11 +1,10 @@
 "use client";
-
 import { BtnArrows } from "@/components/BtnArrows";
 import { useState } from "react";
 import Carousel from "react-multi-carousel";
 import { responsive } from "./responsive";
 import { cn } from "@/lib/utils";
-import { Song } from "@prisma/client";
+import { TWpSong } from "@/api/song";
 
 type TCardProps = {
   src: string;
@@ -35,17 +34,9 @@ const Card = ({ src, title, plays }: TCardProps) => {
   );
 };
 
-export const HotVideos = ({
-  songs,
-}: {
-  songs: (Song & {
-    band: { name: string } | null;
-    artists: { artist: { name: string } }[];
-  })[];
-}) => {
+export const HotVideos = ({ songs }: { songs: TWpSong[] }) => {
   const [carousel, setCarousel] = useState<null | Carousel>(null);
-  const songsToShow = songs.filter((song) => song.videoHot);
-
+  const songsToShow = songs.filter((song) => song.video_hot.rendered);
   return (
     <section className="m-4 rounded-xl shadow-xl overflow-hidden">
       <header className="p-4 text-2xl flex justify-between">
@@ -61,17 +52,16 @@ export const HotVideos = ({
           arrows={false}
           responsive={responsive}
         >
-          {songsToShow.map((song) => (
-            <Card
-              key={song.id}
-              src={
-                song.videoSrc ||
-                "https://appsbuildin2.click/musica/go/images/dashboard/song-video/video-1.mp4"
-              }
-              title={song.name}
-              plays={song.plays || 123}
-            />
-          ))}
+          {songsToShow
+            .filter((song) => song.video.rendered)
+            .map((song) => (
+              <Card
+                key={song.id}
+                src={song.video.rendered}
+                title={song.song_name.rendered}
+                plays={Number(song.plays.rendered)}
+              />
+            ))}
           <Card
             src="https://appsbuildin2.click/musica/go/images/dashboard/song-video/video-1.mp4"
             title="Patricia Kaas"

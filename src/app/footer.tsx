@@ -13,16 +13,16 @@ const TitleSong = ({ className, ...props }: HTMLAttributes<HTMLDivElement>) => {
   return (
     <div className={cn("flex gap-4", className)} {...props}>
       <ContainerImage
-        image={song?.photo || "/next.svg"}
+        image={song?.photo.rendered || "/next.svg"}
         width={80}
         height={80}
         className="mr-1"
       />
       <div className="flex flex-col items-start text-white">
-        <h3>{song?.name}</h3>
+        <h3>{song?.song_name.rendered}</h3>
         <h4>
-          {song?.band?.name ||
-            song?.artists.map((artist) => artist.artist.name).join(", ")}
+          {song?.band?.rendered ||
+            song?.artists.value.map((artist) => artist.artist_name).join(", ")}
         </h4>
       </div>
     </div>
@@ -50,7 +50,7 @@ export const Footer = () => {
       )}
     >
       <Track className="col-start-1 col-end-4 md:col-start-2 md:col-end-3 md:row-start-1 md:row-end-2" />
-      <TitleSong className="col-start-1 col-end-2 md:row-start-1 md:row-end-2" />
+      <TitleSong className="col-start-1 col-end-3 md:row-start-1 md:row-end-2" />
       <Buttons className="col-start-3 col-end-4 md:row-start-1 md:row-end-2" />
     </footer>
   );

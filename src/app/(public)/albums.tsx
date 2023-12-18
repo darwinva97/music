@@ -1,9 +1,9 @@
 "use client";
-
+import { TWpAlbum } from "@/api/album";
 import { cn } from "@/lib/utils";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import Image from "next/image";
-import { useRef, useState } from "react";
+import { useState } from "react";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 
@@ -28,15 +28,30 @@ const responsive = {
 };
 
 const rounder = "rounded-tr-xl rounded-bl-xl";
-const Card = ({ artist, album }: { artist: string; album: string }) => {
+type TAlbumCardProps = {
+  artist_name: string;
+  photo: string;
+};
+const AlbumCard = ({
+  artist,
+  album,
+  photo,
+}: {
+  artist: string;
+  album: string;
+  photo?: string;
+}) => {
   return (
-    <div className={cn("border inline-flex flex-col w-[150]", rounder)}>
+    <div className={cn("border inline-flex flex-col w-[200px]", rounder)}>
       <Image
-        src="https://appsbuildin2.click/musica/go/images/dashboard/feature-album/04.png"
+        src={
+          photo ||
+          "https://appsbuildin2.click/musica/go/images/dashboard/feature-album/04.png"
+        }
         alt={artist}
-        width={150}
-        height={150}
-        className={cn(rounder)}
+        width={250}
+        height={250}
+        className={cn(rounder, "w-full contains")}
       />
       <div className="flex flex-col items-center p-4">
         <strong>{album}</strong>
@@ -65,7 +80,7 @@ const ButtonGroup = ({ carousel }: { carousel: Carousel }) => {
   );
 };
 
-export const Albums = () => {
+export const Albums = ({ albums }: { albums: TWpAlbum[] }) => {
   const [carousel, setCarousel] = useState<null | Carousel>(null);
   return (
     <section className="m-4 rounded-xl shadow-xl overflow-hidden">
@@ -81,14 +96,19 @@ export const Albums = () => {
           ref={(el) => setCarousel(el)}
           arrows={false}
           responsive={responsive}
-          
         >
-          <Card artist="Patricia Kaas" album="Pop Smoke" />
-          <Card artist="Lewis Capaldi" album="Before You Go" />
-          <Card artist="Patricia Kaas" album="Pop Smoke" />
-          <Card artist="Lewis Capaldi" album="Before You Go" />
-          <Card artist="Patricia Kaas" album="Pop Smoke" />
-          <Card artist="Lewis Capaldi" album="Before You Go" />
+          {albums.map((album) => (
+            <AlbumCard
+              key={album.id}
+              artist={
+                typeof album.band?.rendered === "string"
+                  ? album.band?.rendered
+                  : album.artists?.value.map((a) => a.artist_name).join(", ")
+              }
+              album={album.album_name.rendered}
+              photo={album.photo?.rendered}
+            />
+          ))}
         </Carousel>
       </div>
     </section>

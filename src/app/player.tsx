@@ -199,7 +199,7 @@ export const Player = () => {
           }
           setCurrentTime(audioRef.current.currentTime);
         }}
-        src={song?.audioSrc || ""}
+        src={song?.audio.rendered || ""}
         onEnded={() => {
           if (!audioRef.current) {
             return;

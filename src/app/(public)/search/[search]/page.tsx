@@ -1,33 +1,12 @@
-import { db } from "@/db";
 import { TrendingSongs } from "../../trending";
+import { getSongs } from "@/api";
 
 const SearchPage = async function ({
   params: { search },
 }: {
   params: { search: string };
 }) {
-  const songs = await db.song.findMany({
-    where: {
-      name: {
-        contains: search,
-        mode: "insensitive",
-      },
-    },
-    take: 100,
-    include: {
-      artists: {
-        include: {
-          artist: true,
-        },
-      },
-      band: true,
-      playlists: {
-        include: {
-          playlist: true,
-        },
-      },
-    },
-  });
+  const songs = await getSongs();
   return (
     <div>
       <div className="text-center">

@@ -9,6 +9,7 @@ import { useEffect, useState } from "react";
 const Card = ({ song }: { song: TSong }) => {
   const { playSong } = useStore();
   const [duration, setDuration] = useState(0);
+
   useEffect(() => {
     async function obtenerDuracionAudio(url: string) {
       // Crear un elemento de audio
@@ -25,13 +26,16 @@ const Card = ({ song }: { song: TSong }) => {
       // Devolver la duración
       return duracion;
     }
-    song.audioSrc && obtenerDuracionAudio(song.audioSrc).then(setDuration);
+    song.audio.rendered &&
+      obtenerDuracionAudio(song.audio.rendered).then(setDuration);
   }, [song]);
+
   const formatDuration = (duration: number) => {
     const minutes = Math.floor(duration / 60);
     const seconds = Math.floor(duration % 60);
     return `${minutes}:${seconds.toString().padStart(2, "0")}`;
   };
+
   return (
     <div
       className="flex gap-2 text-white items-center"
@@ -40,19 +44,16 @@ const Card = ({ song }: { song: TSong }) => {
       }}
     >
       <ContainerImage
-        image={
-          song.photo ||
-          "https://appsbuildin2.click/musica/go/images/dashboard/realease-song/01.png"
-        }
+        image={song.photo.rendered}
         width={60}
         height={60}
         className="rounded-tr-xl rounded-bl-xl"
       />
       <div className="flex-1 flex flex-col gap-2 items-start justify-center w-full">
-        <strong>{song.name}</strong>
+        <strong>{song.song_name.rendered}</strong>
         <span>
-          {song.band?.name ||
-            song.artists.map((artist) => artist.artist.name).join(", ")}
+          {song.band.rendered ||
+            song.artists?.value.map((artist) => artist.artist_name).join(", ")}
         </span>
       </div>
       <strong>{formatDuration(duration)}</strong>

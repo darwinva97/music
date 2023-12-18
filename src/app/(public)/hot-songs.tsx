@@ -1,35 +1,18 @@
 "use client";
-
 import { BtnArrows } from "@/components/BtnArrows";
 import { useState } from "react";
 import Carousel from "react-multi-carousel";
 import { responsive } from "./responsive";
-import {
-  Artist,
-  ArtistsOnBands,
-  Band,
-  Song,
-  SongsOnArtist,
-} from "@prisma/client";
 import { ContainerImage } from "@/components/ContainerImage";
 import { useStore } from "@/store";
-import { TSong, TSongFull } from "@/types";
+import { TSong } from "@/types";
 
-// interface TArtist extends ArtistsOnBands {
-//   artist: Artist;
-// }
-// type TCardProps = {
-//   cards: (Omit<TSongFull, "artists"> & {
-//     band: Band;
-//     artists: TArtist[];
-//   })[];
 const Card = ({ cards }: { cards: TSong[] }) => {
-  // };
   const { playSong } = useStore();
   return (
     <div className="flex flex-col gap-4">
       {cards.map((song, index) => {
-        const { photo, name, artists, band } = song;
+        const { photo, artists, band } = song;
         return (
           <div
             key={index}
@@ -39,19 +22,16 @@ const Card = ({ cards }: { cards: TSong[] }) => {
             }}
           >
             <ContainerImage
-              image={
-                photo ||
-                "https://appsbuildin2.click/musica/go/images/dashboard/hot-songs/04.png"
-              }
+              image={photo?.rendered}
               width={60}
               height={60}
               className="rounded-tr-full rounded-br-full rounded-bl-full"
             />
             <div className="flex flex-col">
-              <span>{name}</span>
+              <span>{song.song_name.rendered}</span>
               <span>
-                {band?.name ||
-                  artists.map((artist) => artist.artist.name).join(",")}
+                {band?.rendered ||
+                  artists.value.map((artist) => artist.artist_name).join(",")}
               </span>
             </div>
           </div>
@@ -67,7 +47,7 @@ type THotSongsProps = {
 
 export const HotSongs = ({ songs }: THotSongsProps) => {
   const [carousel, setCarousel] = useState<null | Carousel>(null);
-  const songsToShow = songs.filter((song) => song.audioHot);
+  const songsToShow = songs.filter((song) => song.audio_hot.rendered);
 
   const groupedSongs = songsToShow.reduce(
     (acc: (typeof songsToShow)[], el, i) => {
