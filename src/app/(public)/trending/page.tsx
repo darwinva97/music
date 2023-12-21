@@ -1,5 +1,6 @@
 import { TrendingSongs } from "../trending";
 import { getSongs } from "@/api";
+export { revalidate } from "@/config"
 
 const Pages = async () => {
   const songs = await getSongs();

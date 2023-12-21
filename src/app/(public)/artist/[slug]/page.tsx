@@ -2,6 +2,7 @@ import { redirect } from "next/navigation";
 import { TrendingSongs } from "../../trending";
 import { ContainerImage } from "@/components/ContainerImage";
 import { getArtistsBySlug, getSongs } from "@/api";
+export { revalidate } from "@/config"
 
 const Artist = async function ({
   params: { slug },

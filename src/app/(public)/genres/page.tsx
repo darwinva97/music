@@ -1,3 +1,5 @@
+export { revalidate } from "@/config"
+
 const GenrePages = () => {
   return (
     <div>

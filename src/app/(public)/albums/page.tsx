@@ -1,6 +1,6 @@
 import { Albums } from "../albums";
-import { TrendingSongs } from "../trending";
 import { getAlbums } from "@/api";
+export { revalidate } from "@/config"
 
 const AlbumsPage = async () => {
   const albums = await getAlbums();
