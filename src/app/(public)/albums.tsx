@@ -97,18 +97,22 @@ export const Albums = ({ albums }: { albums: TWpAlbum[] }) => {
           arrows={false}
           responsive={responsive}
         >
-          {albums.map((album) => (
-            <AlbumCard
-              key={album.id}
-              artist={
-                typeof album.band?.rendered === "string"
-                  ? album.band?.rendered
-                  : album.artists?.value.map((a) => a.artist_name).join(", ")
-              }
-              album={album.album_name.rendered}
-              photo={album.photo?.rendered}
-            />
-          ))}
+          {albums.map((album) => {
+            return (
+              <AlbumCard
+                key={album.id}
+                artist={
+                  typeof album.band?.rendered === "string"
+                    ? album.band?.rendered
+                    : Array.isArray(album.artists?.value)
+                    ? album.artists?.value.map((a) => a.artist_name).join(", ")
+                    : ""
+                }
+                album={album.album_name.rendered}
+                photo={album.photo?.rendered}
+              />
+            );
+          })}
         </Carousel>
       </div>
     </section>

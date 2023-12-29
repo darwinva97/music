@@ -13,7 +13,7 @@ export default async function ProfilePage() {
   const albums = await getAlbums();
   return (
     <div>
-      <Hero songs={songs.slice(0, 4)} />
+      <Hero songs={songs.filter((song) => song.audio.rendered).slice(0, 4)} />
       <Albums albums={albums} />
       <Artists artists={artists} />
       <TrendingSongs songs={songs} />

@@ -19,7 +19,6 @@ const Artist = async function ({
   if (!artist) {
     redirect("/404");
   }
-  console.log(artist.songs);
   return (
     <div>
       {artist.cover.rendered &&

@@ -17,8 +17,9 @@ export const CardTrending = (song: TSong) => {
       <div className="inline-flex flex-col gap-2 p-4 text-center max-w-[300px]">
         <strong>{song_name.rendered}</strong>
         <span>
-          {band?.rendered ||
-            artists.value.map((artist) => artist.artist_name).join(", ")}
+          {band?.rendered || Array.isArray(artists?.value)
+            ? artists?.value.map((artist) => artist.artist_name).join(", ")
+            : ""}
         </span>
       </div>
     </div>
