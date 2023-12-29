@@ -5,6 +5,7 @@ import { HotSongs } from "./hot-songs";
 import { HotVideos } from "./hot-videos";
 import { TrendingSongs } from "./trending";
 import { getAlbums, getArtists, getSongs } from "@/api";
+import { Metadata } from "next";
 export { revalidate } from "@/config";
 
 export default async function ProfilePage() {
@@ -27,5 +28,11 @@ export default async function ProfilePage() {
     </div>
   );
 }
+
+export const metadata: Metadata = {
+  title: "Welcome to OstDoramas",
+  description:
+    "Discover the best doramas music on the internet. All about the music you love and more.",
+};
 
 export const dynamic = "force-dynamic";
