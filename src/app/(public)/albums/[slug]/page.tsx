@@ -48,4 +48,6 @@ const Album = async ({ params: { slug } }: TPageProps) => {
   );
 };
 
+export const dynamic = "force-dynamic";
+
 export default Album;
