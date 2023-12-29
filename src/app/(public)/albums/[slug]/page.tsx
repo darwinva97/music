@@ -48,7 +48,7 @@ const Album = async ({ params: { slug } }: TPageProps) => {
         <section className="text-lg mt-6">
           <strong className="text-xl">Canciones:</strong>
           <ul>
-            {album.songs.value.map((song) => {
+            {album.songs.value.reverse().map((song) => {
               return <li key={song.id}>{song.song_name}</li>;
             })}
           </ul>
