@@ -62,31 +62,6 @@ export const HotVideos = ({ songs }: { songs: TWpSong[] }) => {
                 plays={Number(song.plays.rendered)}
               />
             ))}
-          <Card
-            src="https://appsbuildin2.click/musica/go/images/dashboard/song-video/video-1.mp4"
-            title="Patricia Kaas"
-            plays={123}
-          />
-          <Card
-            src="https://appsbuildin2.click/musica/go/images/dashboard/song-video/video-1.mp4"
-            title="Lewis Capaldi"
-            plays={123}
-          />
-          <Card
-            src="https://appsbuildin2.click/musica/go/images/dashboard/song-video/video-1.mp4"
-            title="Lewis Capaldi"
-            plays={123}
-          />
-          <Card
-            src="https://appsbuildin2.click/musica/go/images/dashboard/song-video/video-1.mp4"
-            title="Patricia Kaas"
-            plays={123}
-          />
-          <Card
-            src="https://appsbuildin2.click/musica/go/images/dashboard/song-video/video-1.mp4"
-            title="Lewis Capaldi"
-            plays={123}
-          />
         </Carousel>
       </div>
     </section>

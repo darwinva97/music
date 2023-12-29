@@ -21,8 +21,11 @@ const TitleSong = ({ className, ...props }: HTMLAttributes<HTMLDivElement>) => {
       <div className="flex flex-col items-start text-white">
         <h3>{song?.song_name.rendered}</h3>
         <h4>
-          {song?.band?.rendered ||
-            song?.artists.value.map((artist) => artist.artist_name).join(", ")}
+          {song?.band?.rendered || Array.isArray(song?.artists?.value)
+            ? song?.artists?.value
+                .map((artist) => artist.artist_name)
+                .join(", ")
+            : ""}
         </h4>
       </div>
     </div>

@@ -8,9 +8,14 @@ import { getAlbums, getArtists, getSongs } from "@/api";
 export { revalidate } from "@/config";
 
 export default async function ProfilePage() {
-  const songs = await getSongs();
-  const artists = await getArtists();
-  const albums = await getAlbums();
+  const songsPromises = getSongs();
+  const artistsPromises = getArtists();
+  const albumsPromises = getAlbums();
+  const [songs, artists, albums] = await Promise.all([
+    songsPromises,
+    artistsPromises,
+    albumsPromises,
+  ]);
   return (
     <div>
       <Hero songs={songs.filter((song) => song.audio.rendered).slice(0, 4)} />

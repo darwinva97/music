@@ -33,7 +33,7 @@ export const TrendingSongs = ({
       )}
       <div className="grid grid-cols-[repeat(auto-fill,minmax(300px,1fr))] auto-rows-max gap-4">
         {songs
-          .filter((song) => song.trending)
+          .filter((song) => song.trending && song.song_name.rendered)
           .map((song) => (
             <CardTrending key={song.id} {...song} />
           ))}

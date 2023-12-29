@@ -3,6 +3,7 @@ import { TWpAlbum } from "@/api/album";
 import { cn } from "@/lib/utils";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 import { useState } from "react";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
@@ -36,28 +37,42 @@ const AlbumCard = ({
   artist,
   album,
   photo,
+  slug,
 }: {
   artist: string;
   album: string;
+  slug: string;
   photo?: string;
 }) => {
   return (
-    <div className={cn("border inline-flex flex-col w-[200px]", rounder)}>
-      <Image
-        src={
-          photo ||
-          "https://appsbuildin2.click/musica/go/images/dashboard/feature-album/04.png"
-        }
-        alt={artist}
-        width={250}
-        height={250}
-        className={cn(rounder, "w-full contains")}
-      />
-      <div className="flex flex-col items-center p-4">
-        <strong>{album}</strong>
-        <span>{artist}</span>
+    <Link href={`/albums/${slug}`}>
+      <div
+        className={cn(
+          "border inline-flex flex-col w-[200px] h-[304px]",
+          rounder
+        )}
+      >
+        <Image
+          src={
+            photo ||
+            "https://appsbuildin2.click/musica/go/images/dashboard/feature-album/04.png"
+          }
+          alt={artist}
+          width={250}
+          height={250}
+          className={cn(rounder, "w-full contains")}
+        />
+        <div className="flex flex-col items-center p-4 overflow-hidden">
+          <strong>{album}</strong>
+          <span
+            className="whitespace-nowrap max-w-full overflow-ellipsis text-left"
+            style={{ overflow: "hidden" }}
+          >
+            {artist}
+          </span>
+        </div>
       </div>
-    </div>
+    </Link>
   );
 };
 
@@ -108,6 +123,7 @@ export const Albums = ({ albums }: { albums: TWpAlbum[] }) => {
                     ? album.artists?.value.map((a) => a.artist_name).join(", ")
                     : ""
                 }
+                slug={album.slug}
                 album={album.album_name.rendered}
                 photo={album.photo?.rendered}
               />

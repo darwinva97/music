@@ -1,6 +1,6 @@
 import { TrendingSongs } from "../../trending";
 import { getSongs } from "@/api";
-export { revalidate } from "@/config"
+export { revalidate } from "@/config";
 
 const SearchPage = async function ({
   params: { search },
@@ -8,6 +8,7 @@ const SearchPage = async function ({
   params: { search: string };
 }) {
   const songs = await getSongs();
+  search = decodeURIComponent(search);
   return (
     <div>
       <div className="text-center">
