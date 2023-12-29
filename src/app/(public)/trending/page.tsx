@@ -1,6 +1,6 @@
 import { TrendingSongs } from "../trending";
 import { getSongs } from "@/api";
-export { revalidate } from "@/config"
+export { revalidate } from "@/config";
 
 const Pages = async () => {
   const songs = await getSongs();
@@ -11,5 +11,7 @@ const Pages = async () => {
     </div>
   );
 };
+
+export const dynamic = "force-dynamic";
 
 export default Pages;

@@ -12,4 +12,6 @@ const AlbumsPage = async () => {
   );
 };
 
+export const dynamic = "force-dynamic";
+
 export default AlbumsPage;

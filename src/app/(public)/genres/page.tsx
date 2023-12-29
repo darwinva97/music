@@ -1,4 +1,4 @@
-export { revalidate } from "@/config"
+export { revalidate } from "@/config";
 
 const GenrePages = () => {
   return (
@@ -7,5 +7,7 @@ const GenrePages = () => {
     </div>
   );
 };
+
+export const dynamic = "force-dynamic";
 
 export default GenrePages;

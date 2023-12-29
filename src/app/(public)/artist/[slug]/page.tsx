@@ -58,4 +58,6 @@ const Artist = async function ({
   );
 };
 
+export const dynamic = "force-dynamic";
+
 export default Artist;

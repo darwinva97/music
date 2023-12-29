@@ -5,7 +5,7 @@ import { HotSongs } from "./hot-songs";
 import { HotVideos } from "./hot-videos";
 import { TrendingSongs } from "./trending";
 import { getAlbums, getArtists, getSongs } from "@/api";
-export { revalidate } from "@/config"
+export { revalidate } from "@/config";
 
 export default async function ProfilePage() {
   const songs = await getSongs();
@@ -22,3 +22,5 @@ export default async function ProfilePage() {
     </div>
   );
 }
+
+export const dynamic = "force-dynamic";
