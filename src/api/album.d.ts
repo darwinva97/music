@@ -13,11 +13,11 @@ export interface TWpAlbum {
   content: Content;
   template: string;
   genre: any[];
-  artists: ArtistsClass;
+  artists: Artists;
   album_name: AlbumName;
-  band: Band;
+  band: BandClass;
   photo: CoverClass;
-  songs: Songs;
+  songs: SongsClass;
   cover: CoverClass;
   featured: AlbumName;
   youtube: AlbumName;
@@ -54,16 +54,16 @@ export interface AlbumName {
   rendered: string;
 }
 
-export interface ArtistsClass {
-  value: ArtistsValue[];
-  rendered: string;
+export interface Artists {
+  value: ArtistValue[] | boolean;
+  rendered: boolean | string;
 }
 
-export interface ArtistsValue {
-  songs: number[];
+export interface ArtistValue {
+  songs: number[] | boolean;
   artist_name: string;
   albums: number[];
-  photo: string;
+  photo: boolean | string;
   bands: boolean;
   cover: boolean | string;
   featured: string;
@@ -87,7 +87,7 @@ export interface ArtistsValue {
   post_parent: number;
   guid: string;
   menu_order: number;
-  post_type: PurplePostType;
+  post_type: ArtistPostType;
   post_mime_type: string;
   comment_count: string;
   comments: boolean;
@@ -103,13 +103,49 @@ export enum StatusEnum {
   Publish = "publish",
 }
 
-export enum PurplePostType {
+export enum ArtistPostType {
   Artist = "artist",
 }
 
-export interface Band {
-  value: boolean;
-  rendered: boolean;
+export interface BandClass {
+  value: BandValue[] | boolean;
+  rendered: boolean | string;
+}
+
+export interface BandValue {
+  albums: boolean;
+  band_name: string;
+  artists: boolean;
+  photo: boolean;
+  songs: number[];
+  cover: boolean;
+  featured: string;
+  ID: number;
+  post_title: string;
+  post_content: string;
+  post_excerpt: string;
+  post_author: string;
+  post_date: Date;
+  post_date_gmt: Date;
+  post_status: StatusEnum;
+  comment_status: Status;
+  ping_status: Status;
+  post_password: string;
+  post_name: string;
+  to_ping: string;
+  pinged: string;
+  post_modified: Date;
+  post_modified_gmt: Date;
+  post_content_filtered: string;
+  post_parent: number;
+  guid: string;
+  menu_order: number;
+  post_type: string;
+  post_mime_type: string;
+  comment_count: string;
+  comments: boolean;
+  genre: boolean;
+  id: number;
 }
 
 export interface Content {
@@ -130,8 +166,8 @@ export interface CoverValue {
   post_content: string;
   post_title: string;
   post_excerpt: string;
-  post_status: string;
-  comment_status: string;
+  post_status: PostStatus;
+  comment_status: CommentStatus;
   ping_status: Status;
   post_password: string;
   post_name: string;
@@ -143,35 +179,53 @@ export interface CoverValue {
   post_parent: string;
   guid: string;
   menu_order: string;
-  post_type: string;
-  post_mime_type: string;
+  post_type: FluffyPostType;
+  post_mime_type: PostMIMEType;
   comment_count: string;
   pod_item_id: string;
+}
+
+export enum CommentStatus {
+  Open = "open",
+}
+
+export enum PostMIMEType {
+  ImageJPEG = "image/jpeg",
+  ImagePNG = "image/png",
+  ImageWebp = "image/webp",
+}
+
+export enum PostStatus {
+  Inherit = "inherit",
+}
+
+export enum FluffyPostType {
+  Attachment = "attachment",
 }
 
 export interface GUID {
   rendered: string;
 }
 
-export interface Songs {
-  value: SongsValue[];
-  rendered: string;
+export interface SongsClass {
+  value: SongValueAlbum[] | boolean;
+  rendered: boolean | string;
 }
 
-export interface SongsValue {
-  band: boolean;
+export interface SongValueAlbum {
+  band: boolean | number;
   song_name: string;
-  artists: number[] | boolean;
-  photo: boolean | string;
+  artists: number[];
+  photo: string;
   album: number;
   cover: boolean | string;
-  featured: any[] | string;
+  featured: string;
   audio: boolean | string;
-  video: boolean;
+  video: boolean | string;
   youtube: string;
-  audio_hot: any[] | string;
-  video_hot: any[] | string;
-  trending: any[] | string;
+  audio_hot: string;
+  video_hot: string;
+  trending: string;
   plays: any[] | string;
   stars: any[] | string;
   ID: number;
@@ -194,7 +248,7 @@ export interface SongsValue {
   post_parent: number;
   guid: string;
   menu_order: number;
-  post_type: FluffyPostType;
+  post_type: TentacledPostType;
   post_mime_type: string;
   comment_count: string;
   comments: boolean;
@@ -203,6 +257,6 @@ export interface SongsValue {
   id: number;
 }
 
-export enum FluffyPostType {
+export enum TentacledPostType {
   Song = "song",
 }

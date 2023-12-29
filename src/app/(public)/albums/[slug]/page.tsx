@@ -1,6 +1,7 @@
 import { getAlbumsBySlug } from "@/api";
 import { Play } from "lucide-react";
 import Image from "next/image";
+import { PlayAlbum } from "./play-album";
 
 type TPageProps = {
   params: {
@@ -24,26 +25,35 @@ const Album = async ({ params: { slug } }: TPageProps) => {
           <div>
             <h1 className="text-3xl font-bold">{album.album_name.rendered}</h1>
             <hr className="my-4" />
-            <strong className="text-xl">Artistas:</strong>
-            <h2 className="text-xl">
-              {album.band?.rendered ||
-                album.artists?.value.map((a) => a.artist_name).join(", ")}
-            </h2>
+            {Array.isArray(album.artists?.value) ? (
+              <>
+                <strong className="text-xl">Artistas:</strong>
+                <h2 className="text-xl">
+                  {album.artists.value.map((a) => a.artist_name).join(", ")}
+                </h2>
+              </>
+            ) : (
+              <>
+                <strong className="text-xl">Banda:</strong>
+                <h2 className="text-xl">{album.band?.rendered}</h2>
+              </>
+            )}
           </div>
-          <div className="inline-flex items-center gap-3 border-black border-[2px] rounded-full px-2 py-1 w-[200px] cursor-pointer m-auto md:m-0">
-            <Play fill="black" />
-            <span>Reproducir Álbum</span>
-          </div>
+          {Array.isArray(album.songs?.value) && (
+            <PlayAlbum songs={album.songs.value} />
+          )}
         </div>
       </header>
-      <section className="text-lg mt-6">
-        <strong className="text-xl">Canciones:</strong>
-        <ul>
-          {album.songs.value.map((song) => {
-            return <li key={song.id}>{song.song_name}</li>;
-          })}
-        </ul>
-      </section>
+      {Array.isArray(album.songs?.value) && (
+        <section className="text-lg mt-6">
+          <strong className="text-xl">Canciones:</strong>
+          <ul>
+            {album.songs.value.map((song) => {
+              return <li key={song.id}>{song.song_name}</li>;
+            })}
+          </ul>
+        </section>
+      )}
     </div>
   );
 };
